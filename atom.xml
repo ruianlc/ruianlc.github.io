@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>安立广&#39;s Plog</title>
+  
+  <subtitle>心本无一物 何处惹尘埃</subtitle>
+  <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://ruianlc.github.io/"/>
+  <updated>2022-10-03T12:10:21.553Z</updated>
+  <id>https://ruianlc.github.io/</id>
+  
+  <author>
+    <name>安立广</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo post deploy</title>
+    <link href="https://ruianlc.github.io/2022/10/03/hexo-post-deploy/"/>
+    <id>https://ruianlc.github.io/2022/10/03/hexo-post-deploy/</id>
+    <published>2022-10-03T11:34:29.000Z</published>
+    <updated>2022-10-03T12:10:21.553Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;write-new-post-and-deploy-to-github&quot;&gt;&lt;a href=&quot;#write-new-post-and-deploy-to-github&quot; class=&quot;headerlink&quot; title=&quot;write new post and</summary>
+        
+      
+    
+    
+    
+    <category term="hexo" scheme="https://ruianlc.github.io/categories/hexo/"/>
+    
+    
+    <category term="markdown" scheme="https://ruianlc.github.io/tags/markdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://ruianlc.github.io/2022/10/03/hello-world/"/>
+    <id>https://ruianlc.github.io/2022/10/03/hello-world/</id>
+    <published>2022-10-03T09:48:06.000Z</published>
+    <updated>2022-10-03T12:01:26.633Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="test" scheme="https://ruianlc.github.io/categories/test/"/>
+    
+    
+    <category term="test" scheme="https://ruianlc.github.io/tags/test/"/>
+    
+    <category term="try" scheme="https://ruianlc.github.io/tags/try/"/>
+    
+  </entry>
+  
+</feed>
