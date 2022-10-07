@@ -372,7 +372,7 @@
 <li>项目的依赖包；</li>
 <li>服务的开启。</li>
 </ul>
-<p>为了提高在新环境的服务部署效率，通过编写一键部署脚本，执行此脚本则可完成服务的部署和开启。</p>
+<p>为了提高项目在新环境的服务部署效率，编写了一键部署脚本，仅需执行此脚本即可完成服务的部署和开启。</p>
 <p>本项目所编写的batch脚本：</p>
 <pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">::-- Script to automate deploy deep learning model inferiing service to new environmenrt.
 @REM 一键部署项目执行环境。使用方法：
@@ -403,7 +403,7 @@ python dl_server.py
 
 echo &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;服务启动完成！&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>可以看到，该脚本可实现环境的配置、依赖包的下周以及服务的开启。需要注意的地方是，在调用每一个conda命令时，要在调用命令前加上<code>call</code>，否则脚本仅会执行该conda语句就会结束。</p>
+<p>可以看到，该脚本可实现环境的配置、依赖包的下载以及服务的开启。需要注意的地方是，在调用每一个conda命令时，要在调用命令前加上<code>call</code>，否则脚本执行完该conda语句就会结束。</p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>本项目实现了以下三个主要功能：</p>
 <ul>
 <li>深度学习模型的调用推理；</li>
