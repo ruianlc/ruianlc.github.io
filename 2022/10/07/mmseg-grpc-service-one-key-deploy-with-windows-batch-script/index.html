@@ -4,16 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="hexo博客撰写与发表, 安立广&#39;s Plog">
-    <meta name="description" content="write new post and deploy to github
-Create new post
-$hexo new &#34;title&#34;
+    <meta name="keywords" content="mmsegmentation图像分割模型推理grpc调用服务，并通过bat脚本一键部署到新环境, 安立广&#39;s Plog">
+    <meta name="description" content="
+背景说明采用mmsegmentation对标注好的训练集图像进行训练，得到最终训练好的图像分割深度学习模型。为了将训练好的模型部署到应用环境，以实现模型推理，并进一步将推理结果用于后续业务分析。本项目从以下三个步骤来完成该项目目的：
 
-Deploy to github
-
-
-
-update message in _config.yml">
+调">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -25,7 +20,7 @@ update message in _config.yml">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>hexo博客撰写与发表 | 安立广&#39;s Plog</title>
+    <title>mmsegmentation图像分割模型推理grpc调用服务，并通过bat脚本一键部署到新环境 | 安立广&#39;s Plog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -236,12 +231,12 @@ update message in _config.yml">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">hexo博客撰写与发表</h1>
+                    <h1 class="description center-align post-title">mmsegmentation图像分割模型推理grpc调用服务，并通过bat脚本一键部署到新环境</h1>
                 </div>
             </div>
         </div>
@@ -265,12 +260,20 @@ update message in _config.yml">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/hexo/">
-                                <span class="chip bg-color">hexo</span>
+                            <a href="/tags/pytorch/">
+                                <span class="chip bg-color">pytorch</span>
                             </a>
                         
-                            <a href="/tags/markdown/">
-                                <span class="chip bg-color">markdown</span>
+                            <a href="/tags/mmsegmentation/">
+                                <span class="chip bg-color">mmsegmentation</span>
+                            </a>
+                        
+                            <a href="/tags/grpc/">
+                                <span class="chip bg-color">grpc</span>
+                            </a>
+                        
+                            <a href="/tags/batch-script/">
+                                <span class="chip bg-color">batch script</span>
                             </a>
                         
                     </div>
@@ -281,8 +284,8 @@ update message in _config.yml">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/web/" class="post-category">
-                                web
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                深度学习
                             </a>
                         
                     </div>
@@ -294,7 +297,7 @@ update message in _config.yml">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-03
+                    2022-10-07
                 </div>
                 
 
@@ -318,142 +321,96 @@ update message in _config.yml">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="write-new-post-and-deploy-to-github"><a href="#write-new-post-and-deploy-to-github" class="headerlink" title="write new post and deploy to github"></a>write new post and deploy to github</h2><ol>
-<li><p>Create new post</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$hexo</span> new <span class="token string">"title"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>Deploy to github</p>
-</li>
-</ol>
+                <hr>
+<h2 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h2><p>采用mmsegmentation对标注好的训练集图像进行训练，得到最终训练好的图像分割深度学习模型。为了将训练好的模型部署到应用环境，以实现模型推理，并进一步将推理结果用于后续业务分析。本项目从以下三个步骤来完成该项目目的：</p>
 <ul>
-<li>update message in <code>_config.yml</code></li>
-<li>execute the following hexo commands in bash   <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable">$hexo</span> clean <span class="token operator">&amp;&amp;</span> hexo g
-<span class="token variable">$hexo</span> server
-<span class="token variable">$hexo</span> deploy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li>调用训练好的模型，编写业务处理代码，实现推理结果的进一步分析；</li>
+<li>grpc服务搭建，实现跨平台、跨语言的项目服务调用；</li>
+<li>编写windows批处理脚本实现新环境的一键部署。</li>
 </ul>
-<h2 id="Post-font-header定义"><a href="#Post-font-header定义" class="headerlink" title="Post font-header定义"></a>Post font-header定义</h2><h3 id="Detailed-Front-matter-options"><a href="#Detailed-Front-matter-options" class="headerlink" title="Detailed Front-matter options"></a>Detailed Front-matter options</h3><p>Everything in the Front-matter option is <strong>not required</strong>. But I still recommend at least filling in the values of <code>title</code> and <code>date</code>.</p>
-<table>
-<thead>
-<tr>
-<th>Options</th>
-<th>Defaults</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>title</td>
-<td>Markdown’s file title</td>
-<td>Post title, it is highly recommended to fill in this option</td>
-</tr>
-<tr>
-<td>date</td>
-<td>Date and time when the file created</td>
-<td>Publish time, it is highly recommended to fill in this option, and it is best to ensure that it is globally unique</td>
-</tr>
-<tr>
-<td>author</td>
-<td><code>author</code> in root <code>_config.yml</code></td>
-<td>Post author</td>
-</tr>
-<tr>
-<td>img</td>
-<td>a value in <code>featureImages</code></td>
-<td>Post feature image，For example: <code>http://xxx.com/xxx.jpg</code></td>
-</tr>
-<tr>
-<td>top</td>
-<td><code>true</code></td>
-<td>Recommended post (whether the post is topped), if the <code>top</code> value is <code>true</code>, it will be recommended as a homepage post.</td>
-</tr>
-<tr>
-<td>hide</td>
-<td><code>false</code></td>
-<td>Whether show this post in homepage, if the <code>hide</code> value is <code>true</code>, it will not be showed in homepage.</td>
-</tr>
-<tr>
-<td>cover</td>
-<td><code>false</code></td>
-<td>The <code>v1.0.2</code> version is added to indicate whether the post needs to be added to the homepage carousel cover.</td>
-</tr>
-<tr>
-<td>coverImg</td>
-<td>null</td>
-<td>The new version of <code>v1.0.2</code> indicates that the post needs to display the image path on the cover of the homepage. If not, the default image of the post is used by default.</td>
-</tr>
-<tr>
-<td>password</td>
-<td>null</td>
-<td>The post read the password. If you want to set the reading verification password for the article, you can set the value of <code>password</code>, which must be encrypted with <code>SHA256</code> to prevent others from seeing it. The premise is that the <code>verifyPassword</code> option is activated in the theme’s <code>config.yml</code></td>
-</tr>
-<tr>
-<td>toc</td>
-<td><code>true</code></td>
-<td>Whether TOC is turned on or not, you can turn off the TOC function for an article. The premise is that the <code>toc</code> option is activated in the theme’s <code>config.yml</code></td>
-</tr>
-<tr>
-<td>mathjax</td>
-<td><code>false</code></td>
-<td>Whether to enable math formula support, whether this article starts <code>mathjax</code>, and you need to open it in the theme <code>_config.yml</code> file.</td>
-</tr>
-<tr>
-<td>summary</td>
-<td>null</td>
-<td>Post summary, custom post summary content, if the attribute has a value, the post card summary will display the text, otherwise the program will automatically intercept part of the article as a summary</td>
-</tr>
-<tr>
-<td>categories</td>
-<td>null</td>
-<td>Article classification, the classification of this topic represents a macroscopically large classification, only one article is recommended for one classification.</td>
-</tr>
-<tr>
-<td>tags</td>
-<td>null</td>
-<td>Post label, a post can have multiple labels</td>
-</tr>
-<tr>
-<td>keywords</td>
-<td>Post Title</td>
-<td>Post key Words With SEO</td>
-</tr>
-<tr>
-<td>reprintPolicy</td>
-<td>cc_by</td>
-<td>Post reprint policy, value could be one of cc_by, cc_by_nd, cc_by_sa, cc_by_nc, cc_by_nc_nd, cc_by_nc_sa, cc0, noreprint and pay</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p><strong>Note</strong>: </p>
-<ol>
-<li>post’s featured picture will take remainder if not writing the <code>img</code> property, and choose the featured picture of theme to let all of post’s picture <strong>have their own characteristics</strong>.</li>
-<li>The value of <code>date</code> should try to ensure that each article is unique, because <code>Gitalk</code> and <code>Gitment</code> recognize <code>id</code> in this topic are uniquely identified by the value of <code>date</code>.</li>
-<li>If you want to set the ability to read the verification password for the article, you should not only set the value of the password with SHA256 encryption in Front-matter, but also activate the configuration in the theme <code>_config.yml</code>.</li>
-<li>you can define reprint policy for a single article in the front-matter of the specific md file using this key: reprintPolicy</li>
-</ol>
-</blockquote>
-<p>The following are examples of the post’s <code>Front-matter</code>.</p>
-<h3 id="The-simplest-example"><a href="#The-simplest-example" class="headerlink" title="The simplest example"></a>The simplest example</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
-<span class="token key atrule">title</span><span class="token punctuation">:</span> typora<span class="token punctuation">-</span>vue<span class="token punctuation">-</span>theme Theme introduction
-<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-09-07 09:25:00</span>
-<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="模型调用，业务代码编写"><a href="#模型调用，业务代码编写" class="headerlink" title="模型调用，业务代码编写"></a>模型调用，业务代码编写</h2><p>由于模型是采用mmseg进行训练的，调用仍采用mmseg相应的模型调用接口，以实现模型的调用。</p>
+<p>针对模型的推理输出，编写业务代码，实现对推理结果进一步的业务处理。</p>
+<h2 id="grpc服务搭建"><a href="#grpc服务搭建" class="headerlink" title="grpc服务搭建"></a>grpc服务搭建</h2><p>由于模型的调用服务代码均是在windowns平台采用python编写，为了使其能够满足跨平台、跨语言的服务调用，我们采用grpc搭建模型调用服务，使用protobuf对传输数据、请求数据以及响应数据进行定义。下面是本项目所定义的消息结构：</p>
+<pre class="line-numbers language-protobuf" data-language="protobuf"><code class="language-protobuf"><span class="token keyword">syntax</span> <span class="token operator">=</span> <span class="token string">"proto3"</span><span class="token punctuation">;</span>
 
-<h3 id="The-most-comprehensive-example"><a href="#The-most-comprehensive-example" class="headerlink" title="The most comprehensive example"></a>The most comprehensive example</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
-<span class="token key atrule">title</span><span class="token punctuation">:</span> typora<span class="token punctuation">-</span>vue<span class="token punctuation">-</span>theme Theme introduction
-<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-09-07 09:25:00</span>
-<span class="token key atrule">author</span><span class="token punctuation">:</span> Qi Zhao
-<span class="token key atrule">img</span><span class="token punctuation">:</span> /source/images/xxx.jpg
-<span class="token key atrule">top</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-<span class="token key atrule">hide</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-<span class="token key atrule">cover</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-<span class="token key atrule">coverImg</span><span class="token punctuation">:</span> /images/1.jpg
-<span class="token key atrule">password</span><span class="token punctuation">:</span> 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
-<span class="token key atrule">toc</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-<span class="token key atrule">mathjax</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-<span class="token key atrule">summary</span><span class="token punctuation">:</span> This is the content of your custom post summary. If there is a value for this attribute<span class="token punctuation">,</span> the post card summary will display the text<span class="token punctuation">,</span> otherwise the program will automatically intercept part of the post content as a summary.
-<span class="token key atrule">categories</span><span class="token punctuation">:</span> Markdown
-<span class="token key atrule">tags</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> Typora
-  <span class="token punctuation">-</span> Markdown
-<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<span class="token keyword">message</span> <span class="token class-name">ABImage</span> <span class="token punctuation">&#123;</span>
+    <span class="token builtin">bytes</span> data <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>   <span class="token comment">// 图像字节</span>
+    <span class="token builtin">int32</span> width <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>  <span class="token comment">// 图像宽度</span>
+    <span class="token builtin">int32</span> height <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// 图像高度</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 请求的参数</span>
+<span class="token keyword">message</span> <span class="token class-name">PredictRequest</span><span class="token punctuation">&#123;</span>
+    <span class="token builtin">string</span> model_path <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment">// 模型所在路径</span>
+    <span class="token builtin">string</span> config_path <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// 模型配置文件所在路径</span>
+    <span class="token builtin">string</span> img_path <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>    <span class="token comment">// 输入图像路径， 用于模型推理</span>
+    <span class="token builtin">string</span> redun_id <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>    <span class="token comment">// 冗余输入头，标记</span>
+
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 定义返回的参数</span>
+<span class="token keyword">message</span> <span class="token class-name">PredictRespense</span><span class="token punctuation">&#123;</span>
+    <span class="token builtin">string</span> redun_id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token builtin">bool</span> is_error <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token builtin">string</span> error_message <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token builtin">float</span> res_g_ratio <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token builtin">float</span> res_y_ratio <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token positional-class-name class-name">ABImage</span> image <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">// 定义服务接口</span>
+<span class="token keyword">service</span> <span class="token class-name">Predictor</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">rpc</span> <span class="token function">predict</span><span class="token punctuation">(</span><span class="token class-name">PredictRequest</span><span class="token punctuation">)</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token class-name">PredictRespense</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从定义的消息结构可看到，服务调用过程既可传输数值或者字符串型结果，也可传输图像结果。</p>
+<h2 id="windows批处理脚本一键部署"><a href="#windows批处理脚本一键部署" class="headerlink" title="windows批处理脚本一键部署"></a>windows批处理脚本一键部署</h2><p>要将在开发环境编写完成的项目服务代码，部署到新环境中，需要解决以下几个问题：</p>
+<ul>
+<li>项目所需的软件安装包；</li>
+<li>项目的依赖包；</li>
+<li>服务的开启。</li>
+</ul>
+<p>为了提高在新环境的服务部署效率，通过编写一键部署脚本，执行此脚本则可完成服务的部署和开启。</p>
+<p>本项目所编写的batch脚本：</p>
+<pre class="line-numbers language-bat" data-language="bat"><code class="language-bat">::-- Script to automate deploy deep learning model inferiing service to new environmenrt.
+@REM 一键部署项目执行环境。使用方法：
+@REM  - 1.手动安装anaconda安装包，直接next下去，直到安装完成。（注意有一步需要将其添加到环境变量）
+@REM  - 2.在项目目录下打开anaconda窗口，在命令行输入脚本执行命令：.\easy_deploy.bat（windows批处理脚本）
+@REM 优点在于，即可以执行DOS命令，也可以执行python环境命令
+
+echo &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;开始部署&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+:: 1、配置anaconda的python执行环境
+:: 根据conda安装地址相应修改
+set CONDAPATH&#x3D;D:\ProgramData\Anaconda
+call %CONDAPATH%\Scripts\activate.bat %CONDAPATH%
+
+:: 2、配置国内源，提高下载速度
+call conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;pkgs&#x2F;free&#x2F;
+call conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;pkgs&#x2F;main&#x2F;
+pip config set global.index-url https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple
+
+:: 3、安装项目依赖包
+pip install numpy terminaltables matplotlib tqdm pandas timm Pillow grpcio&#x3D;&#x3D;1.49.0 protobuf&#x3D;&#x3D;4.21.7 opencv_python_headless&#x3D;&#x3D;4.5.5.64
+pip install torch&#x3D;&#x3D;1.10.0+cpu torchvision&#x3D;&#x3D;0.11.0+cpu torchaudio&#x3D;&#x3D;0.10.0 -f https:&#x2F;&#x2F;download.pytorch.org&#x2F;whl&#x2F;torch_stable.html
+pip install mmcv-full&#x3D;&#x3D;1.5.0 -f https:&#x2F;&#x2F;download.openmmlab.com&#x2F;mmcv&#x2F;dist&#x2F;cpu&#x2F;torch1.10.0&#x2F;index.html
+echo &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;依赖包下载完成！&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+:: 4、开启grpc服务端
+python dl_server.py
+
+echo &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;服务启动完成！&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到，该脚本可实现环境的配置、依赖包的下周以及服务的开启。需要注意的地方是，在调用每一个conda命令时，要在调用命令前加上<code>call</code>，否则脚本仅会执行该conda语句就会结束。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>本项目实现了以下三个主要功能：</p>
+<ul>
+<li>深度学习模型的调用推理；</li>
+<li>grpc服务的搭建，实现跨平台、跨语言的服务搭建；</li>
+<li>提供批处理脚本，实现项目服务在新环境的部署与开启。</li>
+</ul>
+
                 
             </div>
             <hr/>
@@ -479,7 +436,7 @@ update message in _config.yml">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ruianlc.github.io/2022/10/03/hexo-post-deploy/">https://ruianlc.github.io/2022/10/03/hexo-post-deploy/</a>
+                    <a href="https://ruianlc.github.io/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/">https://ruianlc.github.io/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -517,12 +474,20 @@ update message in _config.yml">
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/hexo/">
-                                    <span class="chip bg-color">hexo</span>
+                                <a href="/tags/pytorch/">
+                                    <span class="chip bg-color">pytorch</span>
                                 </a>
                             
-                                <a href="/tags/markdown/">
-                                    <span class="chip bg-color">markdown</span>
+                                <a href="/tags/mmsegmentation/">
+                                    <span class="chip bg-color">mmsegmentation</span>
+                                </a>
+                            
+                                <a href="/tags/grpc/">
+                                    <span class="chip bg-color">grpc</span>
+                                </a>
+                            
+                                <a href="/tags/batch-script/">
+                                    <span class="chip bg-color">batch script</span>
                                 </a>
                             
                         </div>
@@ -601,9 +566,10 @@ update message in _config.yml">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/">
                     <div class="card-image">
@@ -621,9 +587,9 @@ update message in _config.yml">
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-07
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -636,6 +602,7 @@ update message in _config.yml">
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -666,13 +633,13 @@ update message in _config.yml">
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/01/my-menu-during-shanghai-s-lockdown/">
+                <a href="/2022/10/03/hexo-post-deploy/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="封控期间的菜单">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="hexo博客撰写与发表">
                         
-                        <span class="card-title">封控期间的菜单</span>
+                        <span class="card-title">hexo博客撰写与发表</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -683,14 +650,14 @@ update message in _config.yml">
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%94%9F%E6%B4%BB/" class="post-category">
-                                    生活
+                            <a href="/categories/web/" class="post-category">
+                                    web
                                 </a>
                             
                             
@@ -700,8 +667,12 @@ update message in _config.yml">
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B9%B4%E4%BB%A3%E8%AE%B0/">
-                        <span class="chip bg-color">年代记</span>
+                    <a href="/tags/hexo/">
+                        <span class="chip bg-color">hexo</span>
+                    </a>
+                    
+                    <a href="/tags/markdown/">
+                        <span class="chip bg-color">markdown</span>
                     </a>
                     
                 </div>

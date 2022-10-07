@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-10-04T01:01:45.499Z</updated>
+  <updated>2022-10-07T14:40:41.365Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mmsegmentation图像分割模型推理grpc调用服务，并通过bat脚本一键部署到新环境</title>
+    <link href="https://ruianlc.github.io/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/"/>
+    <id>https://ruianlc.github.io/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/</id>
+    <published>2022-10-07T13:52:33.000Z</published>
+    <updated>2022-10-07T14:40:41.365Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;背景说明&quot;&gt;&lt;a href=&quot;#背景说明&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://ruianlc.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="pytorch" scheme="https://ruianlc.github.io/tags/pytorch/"/>
+    
+    <category term="mmsegmentation" scheme="https://ruianlc.github.io/tags/mmsegmentation/"/>
+    
+    <category term="grpc" scheme="https://ruianlc.github.io/tags/grpc/"/>
+    
+    <category term="batch script" scheme="https://ruianlc.github.io/tags/batch-script/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo博客撰写与发表</title>
