@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>在visual studio 2022中构建opencv项目</title>
+      <link href="/2022/10/10/build-opencv-project-in-visual-studio-2022/"/>
+      <url>/2022/10/10/build-opencv-project-in-visual-studio-2022/</url>
+      
+        <content type="html"><![CDATA[<hr><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>由于c++中执行效率方面的优势，本身是作为一种底层语言，用于开发各种系统和应用，运行速度相比其他语言（如MATLAB、Python更加快速）。</p><p>opencv作为在图像处理领域最为广泛使用的开源库，功能丰富，执行效率高。本文在windows安装visual studio 2022(vs++) 搭建c&#x2F;c++开发环境，并安装opencv c++版本，使用c++基于opencv库开发图像处理项目。</p><h2 id="vs-安装"><a href="#vs-安装" class="headerlink" title="vs++安装"></a>vs++安装</h2><p>通过下载vs++ installer安装包，直接在本地安装c++开发IDE环境。</p><p>首先在<a href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022&source=VSLandingPage&cid=2030&passive=false">此处</a> 下载安装包。</p><p>建立c++桌面开发程序的后续安装过程参考<a href="https://blog.csdn.net/InnerPeaceHQ/article/details/121716088">此文</a> 即可。</p><p>安装过程主要注意选择不同的功能集和工作负载，同时选择安装路径（建议使用默认安装路径）。在窗口的上方还有单个组件、语言包、安装位置这些选项，可以不用管，均为默认值。最后点击安装。</p><p>若后续由其他开发需求，可再次运行此installer，选择其他组件进行安装。</p><h2 id="opencv安装"><a href="#opencv安装" class="headerlink" title="opencv安装"></a>opencv安装</h2><p>由于之前一直使用的opencv-python版本为4.5.5.64，为了使两者尽可能保持一致。安装的opencv c++版本也为4.5.5。下载地址在<a href="https://github.com/opencv/opencv/releases/download/4.5.5/opencv-4.5.5-vc14_vc15.exe">此处</a>。</p><p>opencv的安装主要注意以下两点:</p><ul><li>将opencv添加到环境变量</li><li>设置项目的property，分别在vc++ directories和linker中添加代码源和动态链接库，如下图所示：<br> <img src="https://user-images.githubusercontent.com/114786693/194904623-b9733954-4f07-4b73-9ed7-2254e5ba68b5.png" alt="image"><br> <img src="https://user-images.githubusercontent.com/114786693/194904382-1a28aacf-28a0-461d-b47a-8deb288345d4.png" alt="image"></li></ul><h2 id="示例程序结果"><a href="#示例程序结果" class="headerlink" title="示例程序结果"></a>示例程序结果</h2><p>写了一个opencv读取图像的示例，执行结果如下图所示：<br><img src="https://user-images.githubusercontent.com/114786693/194894601-bd87c02a-f05c-4c15-80f7-b9f4b89821fa.png" alt="image"></p><p>可以看到，成功输出图像结果。</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文获得了以下两个成果：</p><ul><li>成功构建了c++开发环境；</li><li>可基于opencv c++开发图像处理应用。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 图像处理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vs++ </tag>
+            
+            <tag> opencv </tag>
+            
+            <tag> c++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mmsegmentation图像分割模型推理grpc调用服务，并通过bat脚本一键部署到新环境</title>
       <link href="/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/"/>
       <url>/2022/10/07/mmseg-grpc-service-one-key-deploy-with-windows-batch-script/</url>

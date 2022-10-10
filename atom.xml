@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-10-07T14:48:39.167Z</updated>
+  <updated>2022-10-10T15:50:51.554Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在visual studio 2022中构建opencv项目</title>
+    <link href="https://ruianlc.github.io/2022/10/10/build-opencv-project-in-visual-studio-2022/"/>
+    <id>https://ruianlc.github.io/2022/10/10/build-opencv-project-in-visual-studio-2022/</id>
+    <published>2022-10-10T13:47:04.000Z</published>
+    <updated>2022-10-10T15:50:51.554Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;说明&quot;&gt;&lt;a href=&quot;#说明&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="图像处理" scheme="https://ruianlc.github.io/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    
+    
+    <category term="vs++" scheme="https://ruianlc.github.io/tags/vs/"/>
+    
+    <category term="opencv" scheme="https://ruianlc.github.io/tags/opencv/"/>
+    
+    <category term="c++" scheme="https://ruianlc.github.io/tags/c/"/>
+    
+  </entry>
   
   <entry>
     <title>mmsegmentation图像分割模型推理grpc调用服务，并通过bat脚本一键部署到新环境</title>
