@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>image labeling for supervised learning</title>
+      <link href="/2022/10/11/image-labeling-for-supervised-learning/"/>
+      <url>/2022/10/11/image-labeling-for-supervised-learning/</url>
+      
+        <content type="html"><![CDATA[<hr><p>监督学习下的建模过程，高质量的数据是构建好的模型的第一步。对于机器学习，包括了提取高质量的特征和标签的准确性；对于深度学习，则需确保标签的准确。</p><p>深度学习中的主要任务，包括分类、分割、检测，其首要任务均是对数据进行标注。分类是给样本标注类别标签，分割是给图像某个区域的所有像素点标注类别标签，检测是给图像中的目标，既标注类别标签，也标注目标的位置。数据标注过程的严谨性与标注结果的准确，决定了是否能够训练出更加优秀的模型。</p><p>关于如何提高对监督学习下的模型构建过程中的第一步——数据标注的工作质量，近期看了LandingAI的一篇post，给了较好的启发。</p><p>文章以缺陷检测为示例，总体从以下几个方面论述开来：</p><ul><li><p>数据标注的说明</p></li><li><p>图像检测项目中数据标注的挑战：主要包括两点，缺陷样本较少，不同业务专家对缺陷的理解不同。譬如下图所示：<br><img src="https://user-images.githubusercontent.com/114786693/195116140-c14f228e-7bb7-4c1f-a433-31adffc7b445.png" alt="image"></p></li><li><p>如何对不同达成共识：包括，缺陷说明书；机器学习（MLE）与业务专家（SME）对缺陷的定义一致；多个标注工程师同时对同一图像进行标注，选取达成一致的结果</p></li></ul><p>最终标注过程所期望的结果，是达成共识而且没有争议的结果。</p><br><p><strong>Reference</strong></p><p>[1] <a href="https://landing.ai/data-labeling-of-images-for-supervised-learning/">https://landing.ai/data-labeling-of-images-for-supervised-learning/</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数据标注 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>在visual studio 2022中构建opencv项目</title>
       <link href="/2022/10/10/build-opencv-project-in-visual-studio-2022/"/>
       <url>/2022/10/10/build-opencv-project-in-visual-studio-2022/</url>

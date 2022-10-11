@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-10-10T15:50:51.554Z</updated>
+  <updated>2022-10-11T14:19:25.653Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>image labeling for supervised learning</title>
+    <link href="https://ruianlc.github.io/2022/10/11/image-labeling-for-supervised-learning/"/>
+    <id>https://ruianlc.github.io/2022/10/11/image-labeling-for-supervised-learning/</id>
+    <published>2022-10-11T14:07:24.000Z</published>
+    <updated>2022-10-11T14:19:25.653Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;hr&gt;
+&lt;p&gt;监督学习下的建模过程，高质量的数据是构建好的模型的第一步。对于机器学习，包括了提取高质量的特征和标签的准确性；对于深度学习，则需确保标签的准确。&lt;/p&gt;
+&lt;p&gt;深度学习中的主要任务，包括分类、分割、检测，其首要任务均是对数据进行标注。分类是给样本标注类别标签，分割</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://ruianlc.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="数据标注" scheme="https://ruianlc.github.io/tags/%E6%95%B0%E6%8D%AE%E6%A0%87%E6%B3%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>在visual studio 2022中构建opencv项目</title>
