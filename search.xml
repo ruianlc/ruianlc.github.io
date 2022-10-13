@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>关于用pandas处理csv文件数据的一些事</title>
+      <link href="/2022/10/13/stuffs-about-handling-csv-data-with-pandas/"/>
+      <url>/2022/10/13/stuffs-about-handling-csv-data-with-pandas/</url>
+      
+        <content type="html"><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>在做数据分析或者机器学习工作时，很多情况会涉及对csv格式的处理分析。pandas作为数据科学的常用工具包，对于csv格式数据的处理已经相当成熟。从对过去几个项目中的处理过的csv格式数据总结来看，发现有两个普遍而关键的处理用法：</p><ul><li>关注读取csv获得的dataframe中，各列的数据类型；</li><li>如何快速对某个或者某个列进行数据变换。</li></ul><h2 id="变量数据类型"><a href="#变量数据类型" class="headerlink" title="变量数据类型"></a>变量数据类型</h2><p>当我们用pandas读取csv表格后，会获取到一个dataframe，首先需要检查dataframe所有列的数据类型，如下图所示：<br><img src="https://user-images.githubusercontent.com/114786693/195628141-6888b372-d636-482e-b2b6-cf6685066bb0.png" alt="image"><br>可以看到，最后两列数据类型为<code>object</code>。一旦出现这种情况，一定要将这些列准换为指定的数据类型。否则这些列的数据不能正常被读取到，会出现以下情况：<br><img src="https://user-images.githubusercontent.com/114786693/195629821-99968961-c619-42d7-a1a6-f5447bfd6c25.png" alt="image"><br>上图中，处理逻辑是获取目标变量列中指定元素的索引，当目标变量列数据类型为object时，由于<code>ll</code>为列表<code>class_range</code>中的元素，其为数值或者字符类型，判断两者相等有两层含义，一是数据类型相同，二是数值相等。然而两者数据类型不同，造成即使该列存在等于指定数值的元素，最后返回的索引仍为空。</p><p>因此，需要对各列进行数据类型转换，如下图所示：<br><img src="https://user-images.githubusercontent.com/114786693/195627568-fae5f39d-7f30-4b03-98fa-4f205f3f6cb1.png" alt="image"><br><img src="https://user-images.githubusercontent.com/114786693/195632156-88401f8e-f7b1-46ba-9460-64d964bc3575.png" alt="image"></p><p>只有完成了数据类型的转换，才能保证后续能够对获取到的dataframe进行正常处理。</p><h2 id="更改某个或者某些变量的值"><a href="#更改某个或者某些变量的值" class="headerlink" title="更改某个或者某些变量的值"></a>更改某个或者某些变量的值</h2><p>在dataframe处理过程中，经常需要对某个或者某些变量的数值进行同时处理，如下面两种情况：</p><ul><li>对某些列同时进行数据类型转换，如下图所示：<br><img src="https://user-images.githubusercontent.com/114786693/195627568-fae5f39d-7f30-4b03-98fa-4f205f3f6cb1.png" alt="image"><br>采用<code>apply()</code>函数实现。</li><li>对某一列的数值同时进行变换，如下图所示：<pre class="line-numbers language-python" data-language="python"><code class="language-python">df<span class="token punctuation">[</span><span class="token string">"col1"</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">[</span><span class="token string">"col1"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x <span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">(</span>ll<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'_'</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>这里采用<code>map()</code>函数实现，原因是针对单个column，map比apply更快。（解释来自<a href="https://stackoverflow.com/questions/19798153/difference-between-map-applymap-and-apply-methods-in-pandas">stackoverflow</a>）</li></ul><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文主要是从两方面说明：</p><ul><li>针对通过pandas读取到的csv数据，首先需要确认各列的数据类型；</li><li>可以采用<code>apply()</code>或者<code>map()</code>函数，快速实现对dataframe中某一列或者某些列的数据变换。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pandas </tag>
+            
+            <tag> csv </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>image labeling for supervised learning</title>
       <link href="/2022/10/11/image-labeling-for-supervised-learning/"/>
       <url>/2022/10/11/image-labeling-for-supervised-learning/</url>
