@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-10-15T14:31:06.820Z</updated>
+  <updated>2022-10-21T17:20:37.231Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据科学/机器学习中如何应对超大型数据集的处理</title>
+    <link href="https://ruianlc.github.io/2022/10/22/how-to-handling-huge-dataset-in-data-science-or-machine-learning/"/>
+    <id>https://ruianlc.github.io/2022/10/22/how-to-handling-huge-dataset-in-data-science-or-machine-learning/</id>
+    <published>2022-10-21T16:07:55.000Z</published>
+    <updated>2022-10-21T17:20:37.231Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;说明&quot;&gt;&lt;a href=&quot;#说明&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="数据科学" scheme="https://ruianlc.github.io/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+    
+    <category term="c++" scheme="https://ruianlc.github.io/tags/c/"/>
+    
+    <category term="csv" scheme="https://ruianlc.github.io/tags/csv/"/>
+    
+    <category term="python" scheme="https://ruianlc.github.io/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>关于用pandas处理csv文件数据的一些事</title>
@@ -37,9 +66,9 @@
     <category term="python" scheme="https://ruianlc.github.io/categories/python/"/>
     
     
-    <category term="pandas" scheme="https://ruianlc.github.io/tags/pandas/"/>
-    
     <category term="csv" scheme="https://ruianlc.github.io/tags/csv/"/>
+    
+    <category term="pandas" scheme="https://ruianlc.github.io/tags/pandas/"/>
     
   </entry>
   
