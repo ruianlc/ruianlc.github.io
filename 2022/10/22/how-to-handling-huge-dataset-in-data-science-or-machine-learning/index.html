@@ -355,23 +355,23 @@ df_data<span class="token punctuation">.</span>info<span class="token punctuatio
 <li>先将numpy array对象转换为list对象，然后通过python将该list对象写入到本地txt。出乎意料的是，python将这么大的对象写入到txt的速度出奇的快，9个G大小的list对象，写入到本地txt完成所花时间不到30s；<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r'all_vals.txt'</span><span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> fp<span class="token punctuation">:</span>
     <span class="token keyword">for</span> item <span class="token keyword">in</span> contents<span class="token punctuation">:</span>
         fp<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"%s\n"</span> <span class="token operator">%</span> item<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
-<li>通过c++将该txt文件准换为csv文件。c++本身作为基础编程语言，在效率上一直是其最大的优势：<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">string file_name &#x3D; &quot;all_vals.txt&quot;;
-string nfile_name &#x3D; &quot;all_vals.csv&quot;;
+<li>通过c++将该txt文件准换为csv文件。c++本身作为基础编程语言，在效率上一直是其最大的优势：<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">string file_name <span class="token operator">=</span> <span class="token string">"all_vals.txt"</span><span class="token punctuation">;</span>
+string nfile_name <span class="token operator">=</span> <span class="token string">"all_vals.csv"</span><span class="token punctuation">;</span>
 
-ifstream in(file_name);
-string line;
+ifstream <span class="token function">in</span><span class="token punctuation">(</span>file_name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+string line<span class="token punctuation">;</span>
 
-ofstream textfile;
-textfile.open(nfile_name);
+ofstream textfile<span class="token punctuation">;</span>
+textfile<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>nfile_name<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-const char* bom &#x3D; &quot;\xef\xbb\xbf&quot;; &#x2F;&#x2F; 写入csv，需要加上bom头，否则写入中文乱码
-textfile &lt;&lt; bom;
+<span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> bom <span class="token operator">=</span> <span class="token string">"\xef\xbb\xbf"</span><span class="token punctuation">;</span> <span class="token comment">// 写入csv，需要加上bom头，否则写入中文乱码</span>
+textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punctuation">;</span>
 
-while (getline(in, line)) &#x2F;&#x2F; line中没有换行符
-&#123;
-    string ss &#x3D; line.substr(1,line.length() - 2);          
-    textfile &lt;&lt; ss &lt;&lt; endl;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">getline</span><span class="token punctuation">(</span>in<span class="token punctuation">,</span> line<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// line中没有换行符</span>
+<span class="token punctuation">&#123;</span>
+    string ss <span class="token operator">=</span> line<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>line<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
+    textfile <span class="token operator">&lt;&lt;</span> ss <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 将2个多G的txt文件重新写入到csv文件，所需时间为5分钟左右。整体而言，通过转换思路，并借助于python以为的开发语言，使我们的数据开发效率得到很大的提升。</li>
 </ul>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
