@@ -334,7 +334,7 @@ df_data<span class="token punctuation">.</span>info<span class="token punctuatio
 <h3 id="pandas-read-csv的engine字段"><a href="#pandas-read-csv的engine字段" class="headerlink" title="pandas read_csv的engine字段"></a>pandas read_csv的<code>engine</code>字段</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">df_data <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">r'data/df_data.csv'</span><span class="token punctuation">,</span> engine<span class="token operator">=</span><span class="token string">'c'</span><span class="token punctuation">)</span>
 df_data<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="https://user-images.githubusercontent.com/114786693/197245511-f0eceb7c-0341-463f-8bd2-7e776a47b8fc.png" alt="image"></p>
-<p>可以看到，通过将读取csv的后端引擎更改为<code>C语言</code>，读取效率有明显降低。</p>
+<p>可以看到，通过将读取csv的后端引擎更改为<code>C语言</code>，读取效率有明显提升。</p>
 <h3 id="dask-dataframe"><a href="#dask-dataframe" class="headerlink" title="dask dataframe"></a>dask dataframe</h3><p>dask是由google主导开发的适用于大数据集的pandas替代方案。一直以来，spark在大数据分析领域占据主导领域，近年来，之前采用spark的用户也在开始切换到dask上来。另外，同时存在一些其他的处理方案，比如<a target="_blank" rel="noopener" href="https://github.com/ray-project/ray">Ray</a>和<a target="_blank" rel="noopener" href="https://github.com/vaexio/vaex">Vaex</a>。在使用覆盖面上，dask是被使用最多的，。Ray是由Berkeley主导开发的，Vaex主要是由荷兰的程序员和数据科学家开发的。初看各家发展生态，dask应当是更胜一筹。</p>
 <p>dask本身主要存在两点优势：</p>
 <ul>
@@ -372,7 +372,7 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
     string ss <span class="token operator">=</span> line<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>line<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
     textfile <span class="token operator">&lt;&lt;</span> ss <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-将2个多G的txt文件重新写入到csv文件，所需时间为5分钟左右。整体而言，通过转换思路，并借助于python以为的开发语言，使我们的数据开发效率得到很大的提升。</li>
+将2个多G的txt文件重新写入到csv文件，所需时间为5分钟左右。整体而言，通过转换思路，并借助于python之外的开发语言，使我们的数据开发效率得到很大的提升。</li>
 </ul>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
 <li>在应对csv大数据集的读取上，采用dask能够显著提高效率，这也是最终我们采取的数据集处理方式</li>
