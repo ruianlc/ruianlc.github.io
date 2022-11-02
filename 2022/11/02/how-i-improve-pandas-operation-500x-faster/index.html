@@ -370,7 +370,7 @@ df<span class="token punctuation">,</span> df_abn <span class="token operator">=
 df<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://user-images.githubusercontent.com/114786693/199510268-a2c6ed09-0fca-448f-b30b-141c11bd31b7.png" alt="image"></p>
 <p>依据这种思想，可以看到完成同样处理逻辑，所需时间下降到41.7s!</p>
-<h2 id="本身算子完成pandas运算"><a href="#本身算子完成pandas运算" class="headerlink" title="本身算子完成pandas运算"></a>本身算子完成pandas运算</h2><p>前面一种做法，显然产生了冗余数据，扩增的两列在后续业务处理时，还需要去掉。那么基于更简洁代码、更省存储资源的原则，直接针对原始多维特征进行条件判断，</p>
+<h2 id="本身算子完成pandas运算"><a href="#本身算子完成pandas运算" class="headerlink" title="本身算子完成pandas运算"></a>本身算子完成pandas运算</h2><p>前面一种做法，显然产生了冗余数据，扩增的两列在后续业务处理时，还需要去掉。那么基于更简洁代码、更省存储资源的原则，直接针对原始多维特征进行条件判断；</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">drop_abnormal_val</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
     
     ab_idxs <span class="token operator">=</span> df<span class="token punctuation">.</span>index<span class="token punctuation">[</span><span class="token punctuation">(</span>df<span class="token punctuation">[</span>spc_names<span class="token punctuation">]</span><span class="token operator">&lt;=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">any</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">|</span> <span class="token punctuation">(</span>df<span class="token punctuation">[</span>spc_names<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">any</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -399,7 +399,7 @@ df<span class="token punctuation">.</span>info<span class="token punctuation">(<
 <li>要有改进代码的意识，输出结果不是最终目的，增加过程的体验很重要。</li>
 <li>要尽可能使用语言本身的算子（内置函数），做到代码简洁。这些算子是这门语言的有用利器。</li>
 </ul>
-<p>另外，对于pandas运算，还有两个可以加速的尝试方向：一是使用numba，首先将dataframe转换为numpy数组的形式；二是通过cython，涉及到耗时的运算逻辑，采用c++来实现，通过cython实现python调用c++，从而实现提速。</p>
+<p>另外，对于pandas运算，还有两个可以尝试的加速方向：一是使用numba，首先将dataframe转换为numpy数组的形式；二是通过cython，涉及到耗时的运算逻辑，采用c++来实现，通过cython实现python调用c++，从而实现提速。</p>
 
                 
             </div>

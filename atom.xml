@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-11-02T14:26:06.256Z</updated>
+  <updated>2022-11-02T14:31:06.318Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/"/>
     <id>https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/</id>
     <published>2022-11-02T13:02:04.000Z</published>
-    <updated>2022-11-02T14:26:06.256Z</updated>
+    <updated>2022-11-02T14:31:06.318Z</updated>
     
     
       
@@ -93,9 +93,9 @@
     <category term="python" scheme="https://ruianlc.github.io/categories/python/"/>
     
     
-    <category term="csv" scheme="https://ruianlc.github.io/tags/csv/"/>
-    
     <category term="pandas" scheme="https://ruianlc.github.io/tags/pandas/"/>
+    
+    <category term="csv" scheme="https://ruianlc.github.io/tags/csv/"/>
     
   </entry>
   
