@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="数据科学/机器学习中如何应对超大型数据集的处理, 安立广&#39;s Plog">
-    <meta name="description" content="说明在数据科学领域，python应当是目前最为常用的开发语言。由于数据分析、机器学习大部分时间基本在处理数据集，对于一般大小的数据文件，采用pandas读取基本已经足够。但若一个数据集大小达到1G甚至10G，pandas读取就显得效率太低，">
+    <meta name="keywords" content="如何使用pandas实现对40万样本集的快速运算, 安立广&#39;s Plog">
+    <meta name="description" content="说明近期在项目中，涉及到对大样本、高维数据集的分析建模，总体上样本数量有40万个，特征维度有近300个。整个分析建模采用python机器学习框架，涉及pandas进行数据清洗，其中需要依据判断条件对异常样本进行剔除。当在小样本情况下，无论多">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>数据科学/机器学习中如何应对超大型数据集的处理 | 安立广&#39;s Plog</title>
+    <title>如何使用pandas实现对40万样本集的快速运算 | 安立广&#39;s Plog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -228,12 +228,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">数据科学/机器学习中如何应对超大型数据集的处理</h1>
+                    <h1 class="description center-align post-title">如何使用pandas实现对40万样本集的快速运算</h1>
                 </div>
             </div>
         </div>
@@ -257,16 +257,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/c/">
-                                <span class="chip bg-color">c++</span>
+                            <a href="/tags/pandas/">
+                                <span class="chip bg-color">pandas</span>
                             </a>
                         
-                            <a href="/tags/csv/">
-                                <span class="chip bg-color">csv</span>
-                            </a>
-                        
-                            <a href="/tags/python/">
-                                <span class="chip bg-color">python</span>
+                            <a href="/tags/bigdata/">
+                                <span class="chip bg-color">bigdata</span>
                             </a>
                         
                     </div>
@@ -277,8 +273,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="post-category">
-                                数据科学
+                            <a href="/categories/python/" class="post-category">
+                                python
                             </a>
                         
                     </div>
@@ -290,7 +286,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-10-22
+                    2022-11-02
                 </div>
                 
 
@@ -314,70 +310,96 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>在数据科学领域，python应当是目前最为常用的开发语言。由于数据分析、机器学习大部分时间基本在处理数据集，对于一般大小的数据文件，采用pandas读取基本已经足够。但若一个数据集大小达到1G甚至10G，pandas读取就显得效率太低，变得不再实用。</p>
-<p>那么有哪些应对大数据集的提速处理方式呢？本文从以下两个角度说明几种提供数据处理速度的方式：</p>
+                <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>近期在项目中，涉及到对大样本、高维数据集的分析建模，总体上样本数量有40万个，特征维度有近300个。整个分析建模采用python机器学习框架，涉及pandas进行数据清洗，其中需要依据判断条件对异常样本进行剔除。当在小样本情况下，无论多复杂的处理逻辑，对pandas操作基本都会很快，但当样本变得庞大以后，对于速度的要求则会变得逐渐突出。</p>
+<p>运算逻辑是能够定位到近300个特征中，任意一个特征出现异常数值范围的样本索引。比如正常值处于(0,1)之间，超出此范围的视为异常值。</p>
+<p>本文从以下三个方式来说明加速pandas运算的一些技巧：</p>
 <ul>
-<li>相较pandas，python中提速方式</li>
-<li>采用c++处理数据，实现提速</li>
+<li><code>for loop</code>进行pandas运算；</li>
+<li>通过间接列扩增实现pandas运算；</li>
+<li>采用pandas本身算子完成pandas运算。</li>
 </ul>
-<h2 id="pandas-read-csv"><a href="#pandas-read-csv" class="headerlink" title="pandas read_csv"></a>pandas read_csv</h2><p>数据科学中，典型的结构化数据存储形式为csv格式，通常是用pandas来对其进行操作：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">df_data <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">r'data/df_data.csv'</span><span class="token punctuation">)</span>
-df_data<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p><img src="https://user-images.githubusercontent.com/114786693/197244671-2ced6ca4-dfc4-401c-a011-f2a50a85fe54.png" alt="image"></p>
-<p>一般情况下，我们所处理的单个csv文件大小不会超过100M。pandas基本可以较快地对其进行读取和操作。但当达到几个G的大小时，pandas直接处理就显得力不从心。速度慢是一方面，若文件太大，内存可能都无法读入全部的数据，比如下图所示：</p>
-<p><img src="https://user-images.githubusercontent.com/114786693/197243918-46c060e3-87a2-4610-992c-fe1cc0b67d62.png" alt="image"></p>
-<p>下面说明几种提速方式，并给出相应的用法。</p>
-<h2 id="python-中的提速方式"><a href="#python-中的提速方式" class="headerlink" title="python 中的提速方式"></a>python 中的提速方式</h2><h3 id="pandas-read-csv的chunksize字段"><a href="#pandas-read-csv的chunksize字段" class="headerlink" title="pandas read_csv的chunksize字段"></a>pandas read_csv的<code>chunksize</code>字段</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">chunks <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">r'data/df_data.csv'</span><span class="token punctuation">,</span> chunksize<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">)</span>
-df_data <span class="token operator">=</span> pd<span class="token punctuation">.</span>concat<span class="token punctuation">(</span>chunks<span class="token punctuation">)</span>
-df_data<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://user-images.githubusercontent.com/114786693/197245247-87bdab08-2ee2-42b4-8b1b-4eef65ed2503.png" alt="image"><br>可以看到，通过增加<code>chunksize</code>字段，读取时间反而有所上升。这是由于<code>chunksize</code>的大小影响了读取的速度，因此，要想通过这一字段提速，前提是能够选择合适大小的chunksize，否则反而对读取效率产生负面影响。</p>
-<h3 id="pandas-read-csv的engine字段"><a href="#pandas-read-csv的engine字段" class="headerlink" title="pandas read_csv的engine字段"></a>pandas read_csv的<code>engine</code>字段</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">df_data <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">r'data/df_data.csv'</span><span class="token punctuation">,</span> engine<span class="token operator">=</span><span class="token string">'c'</span><span class="token punctuation">)</span>
-df_data<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p><img src="https://user-images.githubusercontent.com/114786693/197245511-f0eceb7c-0341-463f-8bd2-7e776a47b8fc.png" alt="image"></p>
-<p>可以看到，通过将读取csv的后端引擎更改为<code>C语言</code>，读取效率有明显提升。</p>
-<h3 id="dask-dataframe"><a href="#dask-dataframe" class="headerlink" title="dask dataframe"></a>dask dataframe</h3><p>dask是由google主导开发的适用于大数据集的pandas替代方案。一直以来，spark在大数据分析领域占据主导领域，近年来，之前采用spark的用户也在开始切换到dask上来。另外，同时存在一些其他的处理方案，比如<a target="_blank" rel="noopener" href="https://github.com/ray-project/ray">Ray</a>和<a target="_blank" rel="noopener" href="https://github.com/vaexio/vaex">Vaex</a>。在使用覆盖面上，dask是被使用最多的，。Ray是由Berkeley主导开发的，Vaex主要是由荷兰的程序员和数据科学家开发的。初看各家发展生态，dask应当是更胜一筹。</p>
-<p>dask本身主要存在两点优势：</p>
+<h2 id="for-loop形式的pandas运算"><a href="#for-loop形式的pandas运算" class="headerlink" title="for loop形式的pandas运算"></a><code>for loop</code>形式的pandas运算</h2><p>这是新手容易产生的最直接做法，通过遍历读取逐行样本，若该行的最小值小于0或者最大值的大于1，则该行即为异常样本。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">drop_abnormal_val</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	ab_idxs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> ii <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+		singsmaple <span class="token operator">=</span> df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>ii<span class="token punctuation">,</span> spc_names<span class="token punctuation">]</span><span class="token punctuation">.</span>to_numpy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+		<span class="token keyword">if</span> <span class="token builtin">min</span><span class="token punctuation">(</span>singsmaple<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token keyword">or</span> <span class="token builtin">max</span><span class="token punctuation">(</span>singsmaple<span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">1</span>
+			ab_idxs<span class="token punctuation">.</span>append<span class="token punctuation">(</span>ii<span class="token punctuation">)</span>
+
+    idxs_saved <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>difference<span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span>ab_idxs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    ab_idx <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"query_1"</span><span class="token punctuation">:</span>ab_idxs<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+    save_idx <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"query_1"</span><span class="token punctuation">:</span>idxs_saved<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+    new_df <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span>save_idx<span class="token punctuation">[</span><span class="token string">'query_1'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span>
+    new_df <span class="token operator">=</span> new_df<span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    abn_df <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span>ab_idx<span class="token punctuation">[</span><span class="token string">'query_1'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span>
+    abn_df <span class="token operator">=</span> abn_df<span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_df<span class="token punctuation">,</span> abn_df
+
+df<span class="token punctuation">,</span> df_abn <span class="token operator">=</span> drop_abnormal_val<span class="token punctuation">(</span>df_src<span class="token punctuation">)</span>
+df<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://user-images.githubusercontent.com/114786693/199510957-fff5206f-882e-4fb9-9047-7c599f03555d.png" alt="image"></p>
+<p>这种方式，处理完所有样本所需时间为11分54秒，对于数据集处理来说，显得过于耗时。</p>
+<h2 id="列扩增实现pandas运算"><a href="#列扩增实现pandas运算" class="headerlink" title="列扩增实现pandas运算"></a>列扩增实现pandas运算</h2><p>注意到运算逻辑是需要计算每个样本的最大和最小值。利用pandas本身的计算最值算子，将计算出的最大、最小值作为新的列扩增到原来的dataframe中。那么仅需定位这两个最值列，即可定位到异常样本索引。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">drop_abnormal_val</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    df<span class="token punctuation">[</span><span class="token string">'max_val'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+    df<span class="token punctuation">[</span><span class="token string">'min_val'</span><span class="token punctuation">]</span> <span class="token operator">=</span> df<span class="token punctuation">.</span><span class="token builtin">min</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+    ab_idxs <span class="token operator">=</span> df<span class="token punctuation">.</span>index<span class="token punctuation">[</span><span class="token punctuation">(</span>df<span class="token punctuation">[</span><span class="token string">'min_val'</span><span class="token punctuation">]</span><span class="token operator">&lt;=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">|</span> <span class="token punctuation">(</span>df<span class="token punctuation">[</span><span class="token string">'max_val'</span><span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    idxs_saved <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>difference<span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span>ab_idxs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    ab_idx <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"query_1"</span><span class="token punctuation">:</span>ab_idxs<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+    save_idx <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"query_1"</span><span class="token punctuation">:</span>idxs_saved<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+    new_df <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span>save_idx<span class="token punctuation">[</span><span class="token string">'query_1'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span>
+    new_df <span class="token operator">=</span> new_df<span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    abn_df <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span>ab_idx<span class="token punctuation">[</span><span class="token string">'query_1'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span>
+    abn_df <span class="token operator">=</span> abn_df<span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_df<span class="token punctuation">,</span> abn_df
+
+df<span class="token punctuation">,</span> df_abn <span class="token operator">=</span> drop_abnormal_val<span class="token punctuation">(</span>df_src<span class="token punctuation">)</span>
+df<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://user-images.githubusercontent.com/114786693/199510268-a2c6ed09-0fca-448f-b30b-141c11bd31b7.png" alt="image"></p>
+<p>依据这种思想，可以看到完成同样处理逻辑，所需时间下降到41.7s!</p>
+<h2 id="本身算子完成pandas运算"><a href="#本身算子完成pandas运算" class="headerlink" title="本身算子完成pandas运算"></a>本身算子完成pandas运算</h2><p>前面一种做法，显然产生了冗余数据，扩增的两列在后续业务处理时，还需要去掉。那么基于更简洁代码、更省存储资源的原则，直接针对原始多维特征进行条件判断，</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">drop_abnormal_val</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    
+    ab_idxs <span class="token operator">=</span> df<span class="token punctuation">.</span>index<span class="token punctuation">[</span><span class="token punctuation">(</span>df<span class="token punctuation">[</span>spc_names<span class="token punctuation">]</span><span class="token operator">&lt;=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">any</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">|</span> <span class="token punctuation">(</span>df<span class="token punctuation">[</span>spc_names<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">any</span><span class="token punctuation">(</span>axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    idxs_saved <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>difference<span class="token punctuation">(</span><span class="token builtin">set</span><span class="token punctuation">(</span>ab_idxs<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    ab_idx <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"query_1"</span><span class="token punctuation">:</span>ab_idxs<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+    save_idx <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"query_1"</span><span class="token punctuation">:</span>idxs_saved<span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+    new_df <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span>save_idx<span class="token punctuation">[</span><span class="token string">'query_1'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span>
+    new_df <span class="token operator">=</span> new_df<span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    abn_df <span class="token operator">=</span> df<span class="token punctuation">.</span>iloc<span class="token punctuation">[</span>ab_idx<span class="token punctuation">[</span><span class="token string">'query_1'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span>
+    abn_df <span class="token operator">=</span> abn_df<span class="token punctuation">.</span>reset_index<span class="token punctuation">(</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_df<span class="token punctuation">,</span> abn_df
+
+df<span class="token punctuation">,</span> df_abn <span class="token operator">=</span> drop_abnormal_val<span class="token punctuation">(</span>df_src<span class="token punctuation">)</span>
+df<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://user-images.githubusercontent.com/114786693/199509946-415e6891-1138-4f32-b84c-098aa30befe8.png" alt="image"></p>
+<p>速度下降到1.4s，相对于第一种方式提速了500多倍！！同样的数据，完成相同的目的。不同的方法实现的效率简直天壤之别！！！</p>
+<p>另外，针对第2、3种方式，可以看到，使用<code>iloc</code>定位指定索引的样本时，采用了通过字典读取索引的方式，因为字典可以通过哈希表的方式加快读取速度。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>总体来说，提速思路从以下两个方面开展：</p>
 <ul>
-<li>并行化：相较于pandas单核处理数据，dask可以进行多线程并行处理数据；</li>
-<li>delayed计算：dask采用一种lazy的方式，对数据进行处理。所谓的lazy计算，是以仅保存计算流程图的方式，记录计算目标的计算流程。但并不执行计算本身。只有需要获取计算目标结果时，通过<code>compute()</code>来执行整个计算流程，获得输出结果。</li>
+<li>要有改进代码的意识，输出结果不是最终目的，增加过程的体验很重要。</li>
+<li>要尽可能使用语言本身的算子（内置函数），做到代码简洁。这些算子是这门语言的有用利器。</li>
 </ul>
-<p>其用法如下：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> dask<span class="token punctuation">.</span>dataframe <span class="token keyword">as</span> dd
-
-data <span class="token operator">=</span> dd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">r'data/output/df_data.csv'</span><span class="token punctuation">)</span>
-df_data <span class="token operator">=</span> data<span class="token punctuation">.</span>compute<span class="token punctuation">(</span><span class="token punctuation">)</span>
-df_data<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://user-images.githubusercontent.com/114786693/197248556-14f341cc-08b8-45be-9493-2769fd5861ab.png" alt="image"></p>
-<p>可以看到，相比于pandas直接读取，<a target="_blank" rel="noopener" href="https://github.com/dask/dask">dask</a>读取整个数据集所需时间降低了1&#x2F;3，是提速表现最好的。</p>
-<h2 id="通过c-进行数据处理提速"><a href="#通过c-进行数据处理提速" class="headerlink" title="通过c++进行数据处理提速"></a>通过c++进行数据处理提速</h2><p>前面我们看到，通过python处理一个数据集，将其保存到一个numpy array对象中，该对象大小达到9G。无法将其保存为dataframe对象写入到本地csv文件中，也无法通过numpy、pickle写入到本地。原因都是太占内存（MemoryError）。如果无法将其保存到本地，那么目标数据就无法持久化，也就降低了重复使用性。</p>
-<p>既然无法直接通过python将该对象存储到本地文件中，此时想出了下面的解决办法：</p>
-<ul>
-<li>先将numpy array对象转换为list对象，然后通过python将该list对象写入到本地txt。出乎意料的是，python将这么大的对象写入到txt的速度出奇的快，9个G大小的list对象，写入到本地txt完成所花时间不到30s；<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">r'all_vals.txt'</span><span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> fp<span class="token punctuation">:</span>
-    <span class="token keyword">for</span> item <span class="token keyword">in</span> contents<span class="token punctuation">:</span>
-        fp<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"%s\n"</span> <span class="token operator">%</span> item<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
-<li>通过c++将该txt文件准换为csv文件。c++本身作为基础编程语言，在效率上一直是其最大的优势：<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">string file_name <span class="token operator">=</span> <span class="token string">"all_vals.txt"</span><span class="token punctuation">;</span>
-string nfile_name <span class="token operator">=</span> <span class="token string">"all_vals.csv"</span><span class="token punctuation">;</span>
-
-ifstream <span class="token function">in</span><span class="token punctuation">(</span>file_name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-string line<span class="token punctuation">;</span>
-
-ofstream textfile<span class="token punctuation">;</span>
-textfile<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>nfile_name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> bom <span class="token operator">=</span> <span class="token string">"\xef\xbb\xbf"</span><span class="token punctuation">;</span> <span class="token comment">// 写入csv，需要加上bom头，否则写入中文乱码</span>
-textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punctuation">;</span>
-
-<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">getline</span><span class="token punctuation">(</span>in<span class="token punctuation">,</span> line<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// line中没有换行符</span>
-<span class="token punctuation">&#123;</span>
-    string ss <span class="token operator">=</span> line<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>line<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          
-    textfile <span class="token operator">&lt;&lt;</span> ss <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-将2个多G的txt文件重新写入到csv文件，所需时间为5分钟左右。整体而言，通过转换思路，并借助于python之外的开发语言，使我们的数据开发效率得到很大的提升。</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
-<li>在应对csv大数据集的读取上，采用dask能够显著提高效率，这也是最终我们采取的数据集处理方式</li>
-<li>当涉及大数据集的读取写入时，可以采用c++来完成我们的数据准备工作。</li>
-</ul>
+<p>另外，对于pandas运算，还有两个可以加速的尝试方向：一是使用numba，首先将dataframe转换为numpy数组的形式；二是通过cython，涉及到耗时的运算逻辑，采用c++来实现，通过cython实现python调用c++，从而实现提速。</p>
 
                 
             </div>
@@ -404,7 +426,7 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ruianlc.github.io/2022/10/22/how-to-handling-huge-dataset-in-data-science-or-machine-learning/">https://ruianlc.github.io/2022/10/22/how-to-handling-huge-dataset-in-data-science-or-machine-learning/</a>
+                    <a href="https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/">https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -442,16 +464,12 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/c/">
-                                    <span class="chip bg-color">c++</span>
+                                <a href="/tags/pandas/">
+                                    <span class="chip bg-color">pandas</span>
                                 </a>
                             
-                                <a href="/tags/csv/">
-                                    <span class="chip bg-color">csv</span>
-                                </a>
-                            
-                                <a href="/tags/python/">
-                                    <span class="chip bg-color">python</span>
+                                <a href="/tags/bigdata/">
+                                    <span class="chip bg-color">bigdata</span>
                                 </a>
                             
                         </div>
@@ -530,9 +548,10 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2022/11/02/how-i-improve-pandas-operation-500x-faster/">
                     <div class="card-image">
@@ -550,9 +569,9 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -565,6 +584,7 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -587,13 +607,13 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/10/13/stuffs-about-handling-csv-data-with-pandas/">
+                <a href="/2022/10/22/how-to-handling-huge-dataset-in-data-science-or-machine-learning/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="关于用pandas处理csv文件数据的一些事">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="数据科学/机器学习中如何应对超大型数据集的处理">
                         
-                        <span class="card-title">关于用pandas处理csv文件数据的一些事</span>
+                        <span class="card-title">数据科学/机器学习中如何应对超大型数据集的处理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -604,14 +624,14 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/python/" class="post-category">
-                                    python
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="post-category">
+                                    数据科学
                                 </a>
                             
                             
@@ -621,12 +641,16 @@ textfile <span class="token operator">&lt;&lt;</span> bom<span class="token punc
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
                     <a href="/tags/csv/">
                         <span class="chip bg-color">csv</span>
                     </a>
                     
-                    <a href="/tags/pandas/">
-                        <span class="chip bg-color">pandas</span>
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
                     </a>
                     
                 </div>

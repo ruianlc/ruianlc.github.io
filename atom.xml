@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-10-24T01:55:32.503Z</updated>
+  <updated>2022-11-02T14:26:06.256Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何使用pandas实现对40万样本集的快速运算</title>
+    <link href="https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/"/>
+    <id>https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/</id>
+    <published>2022-11-02T13:02:04.000Z</published>
+    <updated>2022-11-02T14:26:06.256Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;说明&quot;&gt;&lt;a href=&quot;#说明&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="python" scheme="https://ruianlc.github.io/categories/python/"/>
+    
+    
+    <category term="pandas" scheme="https://ruianlc.github.io/tags/pandas/"/>
+    
+    <category term="bigdata" scheme="https://ruianlc.github.io/tags/bigdata/"/>
+    
+  </entry>
   
   <entry>
     <title>数据科学/机器学习中如何应对超大型数据集的处理</title>
