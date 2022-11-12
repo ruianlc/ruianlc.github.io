@@ -355,7 +355,7 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
 <p>通过numba加速后，的确是发现它的强大威力。之前40万个样本用两轮的数据处理逻辑，就需要1个小时。借助于numba加速，全部样本执行100轮不到1分钟就可完成。加速效果好比是从小电动直接升级为火箭！</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在python加速方面，主要是三个不同方向：</p>
 <ul>
-<li>python向量化编程：这在前面的文章中已有相关总结<a href="how-i-improve-pandas-operation-500x-faster.md">refer</a></li>
+<li>python向量化编程：这在前面的文章中已有相关总结<a href="https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/">refer</a></li>
 <li>cython：python调用c&#x2F;c++代码，需要对c&#x2F;c++编程熟悉</li>
 <li>numba：通过jit编译器，将python代码编译为llvm字节码</li>
 </ul>
