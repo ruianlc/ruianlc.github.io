@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-11-02T14:31:06.318Z</updated>
+  <updated>2022-11-12T03:32:53.234Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用numba对python数组复杂运算加速1000倍以上</title>
+    <link href="https://ruianlc.github.io/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/"/>
+    <id>https://ruianlc.github.io/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/</id>
+    <published>2022-11-12T02:59:31.000Z</published>
+    <updated>2022-11-12T03:32:53.234Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;numba介绍&quot;&gt;&lt;a href=&quot;#numba介绍&quot; class=&quot;headerlink&quot; title=&quot;numba介绍&quot;&gt;&lt;/a&gt;numba介绍&lt;/h2&gt;&lt;p&gt;Numba 是适用于 Python 的即时编译器（jit），最适用于使用 NumPy</summary>
+        
+      
+    
+    
+    
+    <category term="python" scheme="https://ruianlc.github.io/categories/python/"/>
+    
+    
+    <category term="numpy" scheme="https://ruianlc.github.io/tags/numpy/"/>
+    
+    <category term="numba" scheme="https://ruianlc.github.io/tags/numba/"/>
+    
+  </entry>
   
   <entry>
     <title>如何使用pandas实现对40万样本集的快速运算</title>
