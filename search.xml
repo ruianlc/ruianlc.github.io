@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>机器学习中如何应对非正态分布数据的建模</title>
+      <link href="/2022/11/17/non-normal-distribution-and-non-parameter-models/"/>
+      <url>/2022/11/17/non-normal-distribution-and-non-parameter-models/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在机器学习或数据分析过程中，通常会期待手里所拿到的数据在统计上是符合正态分布的。原因是大多常用的分析工具或算法模型均是以符合正态分布为前提条件。</p><p>比如，统计分析中的平均值、标准偏差、方差分析等；机器学习中的主成分分析、参数模型（如线性回归、判别分析等）。</p><p>当数据呈非正态分布时，计算平均值、标偏等就没有统计学意义；方差分析的过程涉及F检验，同样以样本服从正态分布为假设前提；当进行主成分降维时，每一个主成分都是方差最大化的方向，而计算方差本身的前提则是样本满足正态分布；而线性回归等模型要求残差服从正态分布，否则就无法计算模型参数的置信区间。</p><h2 id="正态分布-and-非正态分布"><a href="#正态分布-and-非正态分布" class="headerlink" title="正态分布 and 非正态分布"></a>正态分布 and 非正态分布</h2><p>对于做机器学习建模来说，最乐于看到的还是样本的特征呈正态分布，因此许多数据探索、特征工程以及模型本身都需要以服从正态分布为前提。</p><p>通常来说，我们期望的特征分布如下图所示：</p><p><img src="https://user-images.githubusercontent.com/114786693/202475769-83a3ed09-9bbe-4e59-bc22-6a175ca3582d.png" alt="image"></p><p>呈正态分布的效果是可以尝试更多的分析技巧和选用更多的模型。但实际上，可能碰到的数据特征分布是下面这种情况：</p><p><img src="https://user-images.githubusercontent.com/114786693/202490844-d4e099c9-7467-4a2b-ab41-49cebf21ea54.png" alt="image"><br>呈明显的偏态分布。</p><p>或者下面这种：<br><img src="https://user-images.githubusercontent.com/114786693/202484733-31eb4fb0-9843-473e-9120-e25d1c16cf79.png" alt="image"></p><p>分布出现两个甚至多个峰值，与标准的正态分布差别甚大。当出现多峰时，首先需要分析其原因。是否是因为存在多个不同的组？譬如在分类模型中，将所有不同类别的样本放在一起，那么特征分布出现多峰值就比较合理。</p><p>那么如果针对回归模型，或者分类模型中每个类别的特征分布仍呈非正态分布，这时应该如何处理呢？</p><p>大体来说，可采用两种不同的策略：</p><ul><li>对样本特征进行数据变换：如log变换、power transformation、quantile transformation等，这些都是将样本向正态分布方向进行变换的方式。一般来说，对于呈偏态分布采用log transformation、或者power transformation基本已足够将其转换为正态分布了。但对于呈多峰分布的，甚至需要通过分位数变换才能达到正态分布变换的效果。</li><li>采用非参数模型：每个模型都有其假设前提或者限制条件。尽管许多模型近能够从满足正态分布的数据集中完成学习，但仍有大量的模型可以直接针对非正态分布的数据集完成训练学习，如SVM、Random Forests、Decision Trees或者Gradient Boosted Trees等。</li></ul><p>到这里，基本讲完了如何在机器学习建模过程中如何应对非正态数据的处理了。那么什么是参数模型、或者非参数模型呢？</p><h2 id="参数模型-and-非参数模型"><a href="#参数模型-and-非参数模型" class="headerlink" title="参数模型 and 非参数模型"></a>参数模型 and 非参数模型</h2><p>参数模型中的模型参数数量固定，与数据集无关；在非参数模型中，参数的数量与样本集相关，参数数量会随着数据集增长而增加。</p><p>参数模型以数据分布为假设前提，从样本数据中估计模型参数（如均值、标偏等）用于建模，当数据分布呈偏态或者多峰分布时，均值则无法代表样本的总体情况，从而影响模型表现。非参模型不考虑特征分布，比如在决策树中，仅考虑两个分支的决策差异最大化，那么数据分布对于该过程则没有影响。</p><p>由于非参数模型，对于数据分布没有假设前提，因此可用于特征呈非正态分布的数据集建模。譬如在分类问题中，许多分类模型就可以直接处理非正态分布的特征数据集，如非参数模型支持向量机、决策树等，均可以处理非正态分布数据集。</p><p>下图是不同机器学习模型是否属于参数或非参数模型的汇总：<br><img src="https://user-images.githubusercontent.com/114786693/202493584-cec807b3-2875-4432-9b1e-b4f6ed4b8e6a.png" alt="Image"></p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文以非正态分布为说明入口，从以下几个方面论述开来：</p><ul><li>正态分布的意义；</li><li>非正态分布的表现和影响；</li><li>如何应对非正态分布；</li><li>非参数模型与参数模型的说明。</li></ul><p>Reference</p><p>[1] <a href="https://datascience.stackexchange.com/questions/25789/why-does-pca-assume-gaussian-distribution">https://datascience.stackexchange.com/questions/25789/why-does-pca-assume-gaussian-distribution</a></p><p>[2] <a href="https://www.quality-control-plan.com/StatGuide/ftest_ass_viol.htm">https://www.quality-control-plan.com/StatGuide/ftest_ass_viol.htm</a></p><p>[3] <a href="https://www.statology.org/multimodal-distribution/">https://www.statology.org/multimodal-distribution/</a></p><p>[4] <a href="https://stats.stackexchange.com/questions/268638/what-exactly-is-the-difference-between-a-parametric-and-non-parametric-model">https://stats.stackexchange.com/questions/268638/what-exactly-is-the-difference-between-a-parametric-and-non-parametric-model</a></p><p>[5] <a href="https://vitalflux.com/difference-between-parametric-vs-non-parametric-models/">https://vitalflux.com/difference-between-parametric-vs-non-parametric-models/</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法理论 </tag>
+            
+            <tag> 数据分布 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用numba对python数组复杂运算加速1000倍以上</title>
       <link href="/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/"/>
       <url>/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/</url>

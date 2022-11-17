@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="使用numba对python数组复杂运算加速1000倍以上, 安立广&#39;s Plog">
-    <meta name="description" content="numba介绍Numba 是适用于 Python 的即时编译器（jit），最适用于使用 NumPy 数组和函数以及循环的代码。 使用 Numba 最常见的方法是通过它的装饰器集合，通过这些装饰器来标记函数使用 Numba 编译。 当调用 N">
+    <meta name="keywords" content="机器学习中如何应对非正态分布数据的建模, 安立广&#39;s Plog">
+    <meta name="description" content="前言在机器学习或数据分析过程中，通常会期待手里所拿到的数据在统计上是符合正态分布的。原因是大多常用的分析工具或算法模型均是以符合正态分布为前提条件。
+比如，统计分析中的平均值、标准偏差、方差分析等；机器学习中的主成分分析、参数模型（如线性回">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>使用numba对python数组复杂运算加速1000倍以上 | 安立广&#39;s Plog</title>
+    <title>机器学习中如何应对非正态分布数据的建模 | 安立广&#39;s Plog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -228,12 +229,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">使用numba对python数组复杂运算加速1000倍以上</h1>
+                    <h1 class="description center-align post-title">机器学习中如何应对非正态分布数据的建模</h1>
                 </div>
             </div>
         </div>
@@ -257,12 +258,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/numpy/">
-                                <span class="chip bg-color">numpy</span>
+                            <a href="/tags/%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/">
+                                <span class="chip bg-color">算法理论</span>
                             </a>
                         
-                            <a href="/tags/numba/">
-                                <span class="chip bg-color">numba</span>
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83/">
+                                <span class="chip bg-color">数据分布</span>
                             </a>
                         
                     </div>
@@ -273,8 +274,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/python/" class="post-category">
-                                python
+                            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                机器学习
                             </a>
                         
                     </div>
@@ -286,7 +287,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-11-12
+                    2022-11-17
                 </div>
                 
 
@@ -310,58 +311,40 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="numba介绍"><a href="#numba介绍" class="headerlink" title="numba介绍"></a>numba介绍</h2><p>Numba 是适用于 Python 的即时编译器（jit），最适用于使用 NumPy 数组和函数以及循环的代码。 使用 Numba 最常见的方法是通过它的装饰器集合，通过这些装饰器来标记函数使用 Numba 编译。 当调用 Numba 修饰函数时，它会“即时”编译为机器代码以供执行，最后使用 LLVM 编译器库生成函数的机器码，每次调用函数时都会使用此编译版本。</p>
-<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><p>在使用numba进行加速时，首先需要在待加速函数前添加<code>@git</code>装饰器，但这并不足够。因为numba中支持的数据类别和运算类型，和numpy不完全一致，具体可参考<a target="_blank" rel="noopener" href="https://numba.pydata.org/numba-doc/0.24.0/reference/numpysupported.html">numba supported types</a>。</p>
-<p>因此，一般情况下需要对原来的函数代码进行修改。涉及的修改情况，比如<code>list</code>类型，比如numpy运算<code>np.zeros()</code>等，需要将这些修改为numba中支持的类型。只有添加了jit编译装饰器，并且将代码完全修改为numba所支持的类型和运算，那么通过numba加速才能实现。</p>
-<p>下面是列的一个numba加速的参考示例，对于数据类型和运算均有进行相应修改匹配，使其符合numba。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> numba<span class="token punctuation">.</span>typed <span class="token keyword">import</span> List
-
-
-<span class="token decorator annotation punctuation">@jit</span><span class="token punctuation">(</span>nopython<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> parallel<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">my_fun</span><span class="token punctuation">(</span>ary_data<span class="token punctuation">,</span> nums <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">,</span> ab_ratio<span class="token operator">=</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    rows <span class="token operator">=</span> ary_data<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-    stmp <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">(</span>rows<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>np<span class="token punctuation">.</span>int64<span class="token punctuation">)</span>
-    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        r_num <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>rows <span class="token operator">*</span> ab_ratio<span class="token punctuation">)</span>
-        ind <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>rows<span class="token punctuation">)</span>
-        index <span class="token operator">=</span> ind<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>r_num<span class="token punctuation">]</span>  
-        val <span class="token operator">=</span> ary_data<span class="token punctuation">[</span>index<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">]</span>               
-        val_mean <span class="token operator">=</span> np<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>val<span class="token punctuation">)</span> 
-        val_std <span class="token operator">=</span> np<span class="token punctuation">.</span>std<span class="token punctuation">(</span>val<span class="token punctuation">)</span>                
-        tt <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>rows<span class="token punctuation">)</span><span class="token punctuation">:</span>
-            rr <span class="token operator">=</span> <span class="token punctuation">(</span>ary_data<span class="token punctuation">[</span>j<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">-</span> val_mean<span class="token punctuation">)</span> <span class="token operator">/</span> val_std
-            tmp <span class="token operator">=</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>rr<span class="token punctuation">)</span>
-            tt<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>tt<span class="token punctuation">)</span>
-
-
-<span class="token decorator annotation punctuation">@jit</span><span class="token punctuation">(</span>nopython<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> parallel<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">use_fun</span><span class="token punctuation">(</span>data_src<span class="token punctuation">,</span> class_num<span class="token punctuation">,</span> nums <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">,</span> ab_ratio<span class="token operator">=</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    inds_final <span class="token operator">=</span> List<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span> cc <span class="token keyword">in</span> prange<span class="token punctuation">(</span>class_num<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        inds_level <span class="token operator">=</span> np<span class="token punctuation">.</span>where<span class="token punctuation">(</span>data_src<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">==</span>cc<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-        data_level <span class="token operator">=</span> data_src<span class="token punctuation">[</span>inds_level<span class="token punctuation">]</span>
-        selectIdx <span class="token operator">=</span> my_fun<span class="token punctuation">(</span>data_level<span class="token punctuation">,</span> nums<span class="token punctuation">,</span> ab_ratio<span class="token punctuation">)</span>
-
-        resIdx <span class="token operator">=</span> <span class="token punctuation">[</span>inds_level<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token keyword">for</span> v <span class="token keyword">in</span> selectIdx<span class="token punctuation">]</span>
-        inds_final<span class="token punctuation">.</span>append<span class="token punctuation">(</span>resIdx<span class="token punctuation">)</span>
-   
-    <span class="token keyword">return</span> inds_final
-
-df_data_use <span class="token operator">=</span> df<span class="token punctuation">[</span>names<span class="token operator">+</span><span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">.</span>values
-inds_select <span class="token operator">=</span> use_fun<span class="token punctuation">(</span>df_data_use<span class="token punctuation">,</span> labes_nums<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>通过numba加速后，的确是发现它的强大威力。之前40万个样本用两轮的数据处理逻辑，就需要1个小时。借助于numba加速，全部样本执行100轮不到1分钟就可完成。加速效果好比是从小电动直接升级为火箭！</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在python加速方面，主要是三个不同方向：</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在机器学习或数据分析过程中，通常会期待手里所拿到的数据在统计上是符合正态分布的。原因是大多常用的分析工具或算法模型均是以符合正态分布为前提条件。</p>
+<p>比如，统计分析中的平均值、标准偏差、方差分析等；机器学习中的主成分分析、参数模型（如线性回归、判别分析等）。</p>
+<p>当数据呈非正态分布时，计算平均值、标偏等就没有统计学意义；方差分析的过程涉及F检验，同样以样本服从正态分布为假设前提；当进行主成分降维时，每一个主成分都是方差最大化的方向，而计算方差本身的前提则是样本满足正态分布；而线性回归等模型要求残差服从正态分布，否则就无法计算模型参数的置信区间。</p>
+<h2 id="正态分布-and-非正态分布"><a href="#正态分布-and-非正态分布" class="headerlink" title="正态分布 and 非正态分布"></a>正态分布 and 非正态分布</h2><p>对于做机器学习建模来说，最乐于看到的还是样本的特征呈正态分布，因此许多数据探索、特征工程以及模型本身都需要以服从正态分布为前提。</p>
+<p>通常来说，我们期望的特征分布如下图所示：</p>
+<p><img src="https://user-images.githubusercontent.com/114786693/202475769-83a3ed09-9bbe-4e59-bc22-6a175ca3582d.png" alt="image"></p>
+<p>呈正态分布的效果是可以尝试更多的分析技巧和选用更多的模型。但实际上，可能碰到的数据特征分布是下面这种情况：</p>
+<p><img src="https://user-images.githubusercontent.com/114786693/202490844-d4e099c9-7467-4a2b-ab41-49cebf21ea54.png" alt="image"><br>呈明显的偏态分布。</p>
+<p>或者下面这种：<br><img src="https://user-images.githubusercontent.com/114786693/202484733-31eb4fb0-9843-473e-9120-e25d1c16cf79.png" alt="image"></p>
+<p>分布出现两个甚至多个峰值，与标准的正态分布差别甚大。当出现多峰时，首先需要分析其原因。是否是因为存在多个不同的组？譬如在分类模型中，将所有不同类别的样本放在一起，那么特征分布出现多峰值就比较合理。</p>
+<p>那么如果针对回归模型，或者分类模型中每个类别的特征分布仍呈非正态分布，这时应该如何处理呢？</p>
+<p>大体来说，可采用两种不同的策略：</p>
 <ul>
-<li>python向量化编程：这在前面的文章中已有相关总结<a href="https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/">refer</a></li>
-<li>cython：python调用c&#x2F;c++代码，需要对c&#x2F;c++编程熟悉</li>
-<li>numba：通过jit编译器，将python代码编译为llvm字节码</li>
+<li>对样本特征进行数据变换：如log变换、power transformation、quantile transformation等，这些都是将样本向正态分布方向进行变换的方式。一般来说，对于呈偏态分布采用log transformation、或者power transformation基本已足够将其转换为正态分布了。但对于呈多峰分布的，甚至需要通过分位数变换才能达到正态分布变换的效果。</li>
+<li>采用非参数模型：每个模型都有其假设前提或者限制条件。尽管许多模型近能够从满足正态分布的数据集中完成学习，但仍有大量的模型可以直接针对非正态分布的数据集完成训练学习，如SVM、Random Forests、Decision Trees或者Gradient Boosted Trees等。</li>
 </ul>
-<p>一般来说，在python开发特别时科学计算时，向量化编程是必须采用的，既可提高代码执行效率，也使得代码更加简洁；cython应用于某些模块需要用c&#x2F;c++开发实现提速的场景；当涉及numpy数组操作，包含较多的for循环时，一定得考虑用numba加速，在解决特别大的数组上，威力巨大。</p>
+<p>到这里，基本讲完了如何在机器学习建模过程中如何应对非正态数据的处理了。那么什么是参数模型、或者非参数模型呢？</p>
+<h2 id="参数模型-and-非参数模型"><a href="#参数模型-and-非参数模型" class="headerlink" title="参数模型 and 非参数模型"></a>参数模型 and 非参数模型</h2><p>参数模型中的模型参数数量固定，与数据集无关；在非参数模型中，参数的数量与样本集相关，参数数量会随着数据集增长而增加。</p>
+<p>参数模型以数据分布为假设前提，从样本数据中估计模型参数（如均值、标偏等）用于建模，当数据分布呈偏态或者多峰分布时，均值则无法代表样本的总体情况，从而影响模型表现。非参模型不考虑特征分布，比如在决策树中，仅考虑两个分支的决策差异最大化，那么数据分布对于该过程则没有影响。</p>
+<p>由于非参数模型，对于数据分布没有假设前提，因此可用于特征呈非正态分布的数据集建模。譬如在分类问题中，许多分类模型就可以直接处理非正态分布的特征数据集，如非参数模型支持向量机、决策树等，均可以处理非正态分布数据集。</p>
+<p>下图是不同机器学习模型是否属于参数或非参数模型的汇总：<br><img src="https://user-images.githubusercontent.com/114786693/202493584-cec807b3-2875-4432-9b1e-b4f6ed4b8e6a.png" alt="Image"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文以非正态分布为说明入口，从以下几个方面论述开来：</p>
+<ul>
+<li>正态分布的意义；</li>
+<li>非正态分布的表现和影响；</li>
+<li>如何应对非正态分布；</li>
+<li>非参数模型与参数模型的说明。</li>
+</ul>
 <p>Reference</p>
-<p>[1] <a target="_blank" rel="noopener" href="https://numba.pydata.org/numba-doc/latest/user/5minguide.html/">https://numba.pydata.org/numba-doc/latest/user/5minguide.html\</a><br>[2] <a target="_blank" rel="noopener" href="http://stephanhoyer.com/2015/04/09/numba-vs-cython-how-to-choose/">http://stephanhoyer.com/2015/04/09/numba-vs-cython-how-to-choose/</a></p>
+<p>[1] <a target="_blank" rel="noopener" href="https://datascience.stackexchange.com/questions/25789/why-does-pca-assume-gaussian-distribution">https://datascience.stackexchange.com/questions/25789/why-does-pca-assume-gaussian-distribution</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://www.quality-control-plan.com/StatGuide/ftest_ass_viol.htm">https://www.quality-control-plan.com/StatGuide/ftest_ass_viol.htm</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://www.statology.org/multimodal-distribution/">https://www.statology.org/multimodal-distribution/</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://stats.stackexchange.com/questions/268638/what-exactly-is-the-difference-between-a-parametric-and-non-parametric-model">https://stats.stackexchange.com/questions/268638/what-exactly-is-the-difference-between-a-parametric-and-non-parametric-model</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://vitalflux.com/difference-between-parametric-vs-non-parametric-models/">https://vitalflux.com/difference-between-parametric-vs-non-parametric-models/</a></p>
 
                 
             </div>
@@ -388,7 +371,7 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ruianlc.github.io/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/">https://ruianlc.github.io/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/</a>
+                    <a href="https://ruianlc.github.io/2022/11/17/non-normal-distribution-and-non-parameter-models/">https://ruianlc.github.io/2022/11/17/non-normal-distribution-and-non-parameter-models/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -426,12 +409,12 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/numpy/">
-                                    <span class="chip bg-color">numpy</span>
+                                <a href="/tags/%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/">
+                                    <span class="chip bg-color">算法理论</span>
                                 </a>
                             
-                                <a href="/tags/numba/">
-                                    <span class="chip bg-color">numba</span>
+                                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83/">
+                                    <span class="chip bg-color">数据分布</span>
                                 </a>
                             
                         </div>
@@ -510,9 +493,10 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2022/11/17/non-normal-distribution-and-non-parameter-models/">
                     <div class="card-image">
@@ -530,9 +514,9 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -545,6 +529,7 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -567,13 +552,13 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/11/02/how-i-improve-pandas-operation-500x-faster/">
+                <a href="/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="如何使用pandas实现对40万样本集的快速运算">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="使用numba对python数组复杂运算加速1000倍以上">
                         
-                        <span class="card-title">如何使用pandas实现对40万样本集的快速运算</span>
+                        <span class="card-title">使用numba对python数组复杂运算加速1000倍以上</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -584,7 +569,7 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-12
                             </span>
                         <span class="publish-author">
                             
@@ -601,12 +586,12 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/pandas/">
-                        <span class="chip bg-color">pandas</span>
+                    <a href="/tags/numpy/">
+                        <span class="chip bg-color">numpy</span>
                     </a>
                     
-                    <a href="/tags/bigdata/">
-                        <span class="chip bg-color">bigdata</span>
+                    <a href="/tags/numba/">
+                        <span class="chip bg-color">numba</span>
                     </a>
                     
                 </div>
