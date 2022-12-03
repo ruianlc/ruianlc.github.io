@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-11-17T16:11:18.492Z</updated>
+  <updated>2022-12-03T04:11:18.202Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用scikit-learn-intel-extension加速你的scikit-learn开发应用</title>
+    <link href="https://ruianlc.github.io/2022/12/03/accelarate-your-sklearn-with-sklearn-intel-extension/"/>
+    <id>https://ruianlc.github.io/2022/12/03/accelarate-your-sklearn-with-sklearn-intel-extension/</id>
+    <published>2022-12-03T03:25:14.000Z</published>
+    <updated>2022-12-03T04:11:18.202Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;说明&quot;&gt;&lt;a href=&quot;#说明&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="机器学习" scheme="https://ruianlc.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="sklearn" scheme="https://ruianlc.github.io/tags/sklearn/"/>
+    
+    <category term="accelaration" scheme="https://ruianlc.github.io/tags/accelaration/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习中如何应对非正态分布数据的建模</title>

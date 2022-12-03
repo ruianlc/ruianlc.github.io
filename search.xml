@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>使用scikit-learn-intel-extension加速你的scikit-learn开发应用</title>
+      <link href="/2022/12/03/accelarate-your-sklearn-with-sklearn-intel-extension/"/>
+      <url>/2022/12/03/accelarate-your-sklearn-with-sklearn-intel-extension/</url>
+      
+        <content type="html"><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>Scikit-learn作为传统机器学习&#x2F;数据科学领域使用最广泛的开发包，在数据从业人员中得到广泛的使用好评。但是使用性能（特别是模型训练部分）并不是最优的。一些使用python实现的机器学习算法需要花费几个小时才能完成训练。<a href="https://github.com/intel/scikit-learn-intelex">scikit-learn-intelex</a>号称可以为<a href="https://github.com/scikit-learn">sklearn</a>中的机器学习算法带来成百上千倍的速度提升。</p><p>这个官方公布的加速前后对比：</p><p><img src="https://user-images.githubusercontent.com/114786693/205420932-3aeaa663-7491-49ee-91f8-b92207ab7e86.png" alt="Image"></p><p>之前做的许多机器学习项目，的确是在模型训练部分花费太多时间，而且模型训练部分只能被动等待训练完成。因此这部分的时间花费越少越好。因此，也尝试采用intel官方对sklearn的加速补丁对之前项目的模型训练过程进行加速。也是为了验证官方公布的加速效果是否确有其事。</p><h2 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>（1）单独安装加速包<br>在另外的虚拟环境中安装intelex加速包。</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">conda create <span class="token parameter variable">--name</span> skintel <span class="token assign-left variable">python</span><span class="token operator">=</span><span class="token number">3.9</span> <span class="token parameter variable">-y</span>conda activate skintelconda <span class="token function">install</span> <span class="token parameter variable">-n</span> skintel <span class="token parameter variable">-c</span> conda-forge scikit-learn<span class="token operator">=</span><span class="token number">1.0</span>.2 scikit-learn-intelex<span class="token operator">=</span><span class="token number">2021.6</span>.0 <span class="token parameter variable">-y</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>（2）安装anaconda<br>anaconda 2022.10已经默认配置sklearn加速包。这是最简便的安装使用方法，当然如果不愿意重新安装本地的python base环境的话，那就使用第一种方式。</p><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>（1）cpu</p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 使用intel sklearn加速扩展补丁</span>use_intelex <span class="token operator">=</span> <span class="token number">1</span><span class="token keyword">if</span> use_intelex<span class="token punctuation">:</span>    <span class="token keyword">from</span> sklearnex <span class="token keyword">import</span> patch_sklearn    patch_sklearn<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment"># 停用intel sklearn加速扩展补丁</span>nouse_intelex <span class="token operator">=</span> <span class="token number">1</span><span class="token keyword">if</span> nouse_intelex<span class="token punctuation">:</span>    <span class="token keyword">from</span> sklearnex <span class="token keyword">import</span> unpatch_sklearn    unpatch_sklearn<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>总的来说体验不是很好。</p><ul><li>对于正常可完成训练的模型，加速效果与未使用skintelex差别不大。如我用random forest跑一个3万个训练集200个特征的分类模型，之前1分钟，使用后反而需要近2分钟；</li><li>对于无法完成训练的模型，直接将电脑弄成卡死状态。如使用SVM分类模型，训练开始后cpu满荷、内存满荷，出现memory error错误。参考<a href="https://github.com/intel/scikit-learn-intelex/issues/1010">此处</a>的解决方案，同样也是无法解决。<img width="938" alt="Image" src="https://user-images.githubusercontent.com/114786693/205420995-35c39712-6264-4cac-a9c9-15c52deb1d01.png"></li></ul><p>因此，cpu加速基本也可以放弃。</p><h3 id="cpu加速使用案例效率比对"><a href="#cpu加速使用案例效率比对" class="headerlink" title="cpu加速使用案例效率比对"></a>cpu加速使用案例效率比对</h3><ul><li><p>使用加速补丁</p><img width="619" alt="Image" src="https://user-images.githubusercontent.com/114786693/205421037-77f4f573-fc0b-492b-8933-6dbdbce8a5ce.png"></li><li><p>未使用加速补丁</p><img width="588" alt="Image" src="https://user-images.githubusercontent.com/114786693/205421055-9efc7c03-aa40-43e7-8234-7cbde3d8453a.png"></li></ul><p>使用加速补丁是比不使用要快一点，但是几乎无差异。</p><p>（2）gpu</p><p>配置依赖比较复杂，而且大多数机器学习不依赖GPU，暂时放弃。</p><h2 id="错误集合"><a href="#错误集合" class="headerlink" title="错误集合"></a>错误集合</h2><h3 id="1、ModuleNotFoundError-No-module-named-‘daal4p"><a href="#1、ModuleNotFoundError-No-module-named-‘daal4p" class="headerlink" title="1、ModuleNotFoundError: No module named ‘daal4p"></a>1、ModuleNotFoundError: No module named ‘daal4p</h3><p>（1）问题描述<br><img width="1151" alt="Image" src="https://user-images.githubusercontent.com/114786693/205421910-b115801c-56b0-40d4-aa37-8b36c21ea8f1.png"></p><p>（2）解决</p><p><a href="https://github.com/intel/scikit-learn-intelex/issues/989">https://github.com/intel/scikit-learn-intelex/issues/989</a></p><h3 id="无法在vscode-cell中执行python脚本"><a href="#无法在vscode-cell中执行python脚本" class="headerlink" title="无法在vscode cell中执行python脚本"></a>无法在vscode cell中执行python脚本</h3><p>（1）问题描述</p><p>在python3.8.8环境，安装ipykernel和ipython后，无法在vscode cell中执行python脚本。<br>python版本、ipykernel版本和ipython版本均有依赖关系</p><img width="808" alt="Image" src="https://user-images.githubusercontent.com/114786693/205421950-a7597141-427f-47cc-82b0-0127cff49e2f.png"><p>（2）解决</p><p>安装的python、ipython、ipykernel版本太旧，安装匹配的新版本即可。</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul><li>目前仅成功在cpu环境实现sklearn-intelex加速，但加速与否几乎无差异，可能存在依赖intel官方硬件的原因；</li><li>SVM算法无法成功实现加速，存在内存泄漏的问题；</li><li>gpu加速配置更加复杂，没能成功。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> sklearn </tag>
+            
+            <tag> accelaration </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>机器学习中如何应对非正态分布数据的建模</title>
       <link href="/2022/11/17/non-normal-distribution-and-non-parameter-models/"/>
       <url>/2022/11/17/non-normal-distribution-and-non-parameter-models/</url>
