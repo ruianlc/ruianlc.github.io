@@ -174,9 +174,9 @@
     <category term="python" scheme="https://ruianlc.github.io/categories/python/"/>
     
     
-    <category term="csv" scheme="https://ruianlc.github.io/tags/csv/"/>
-    
     <category term="pandas" scheme="https://ruianlc.github.io/tags/pandas/"/>
+    
+    <category term="csv" scheme="https://ruianlc.github.io/tags/csv/"/>
     
   </entry>
   
