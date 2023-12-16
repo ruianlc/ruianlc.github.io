@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="使用numba对python数组复杂运算加速1000倍以上, 安立广&#39;s Plog">
-    <meta name="description" content="numba介绍Numba 是适用于 Python 的即时编译器（jit），最适用于使用 NumPy 数组和函数以及循环的代码。 使用 Numba 最常见的方法是通过它的装饰器集合，通过这些装饰器来标记函数使用 Numba 编译。 当调用 N">
+    <meta name="keywords" content="找回我的旧影集, 安立广&#39;s Plog">
+    <meta name="description" content="好几年前，刚毕业的时候，搭了一个网站，用来记录一些生活感悟以及分享一些有纪念意义的照片。刚开始在上面分享也比较勤快，只是近几年一堆事情，生活上和工作上都有比较大的曲折与变动。后来基本停更，近些日子突然想看看之前的网站，发现也没法登录。好像之">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>使用numba对python数组复杂运算加速1000倍以上 | 安立广&#39;s Plog</title>
+    <title>找回我的旧影集 | 安立广&#39;s Plog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -228,12 +228,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">使用numba对python数组复杂运算加速1000倍以上</h1>
+                    <h1 class="description center-align post-title">找回我的旧影集</h1>
                 </div>
             </div>
         </div>
@@ -257,12 +257,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/numpy/">
-                                <span class="chip bg-color">numpy</span>
+                            <a href="/tags/%E5%B9%B4%E4%BB%A3%E8%AE%B0/">
+                                <span class="chip bg-color">年代记</span>
                             </a>
                         
-                            <a href="/tags/numba/">
-                                <span class="chip bg-color">numba</span>
+                            <a href="/tags/life/">
+                                <span class="chip bg-color">life</span>
+                            </a>
+                        
+                            <a href="/tags/photo/">
+                                <span class="chip bg-color">photo</span>
                             </a>
                         
                     </div>
@@ -273,8 +277,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/python/" class="post-category">
-                                python
+                            <a href="/categories/%E7%94%9F%E6%B4%BB/" class="post-category">
+                                生活
                             </a>
                         
                     </div>
@@ -286,7 +290,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-11-12
+                    2023-12-16
                 </div>
                 
 
@@ -310,58 +314,14 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="numba介绍"><a href="#numba介绍" class="headerlink" title="numba介绍"></a>numba介绍</h2><p>Numba 是适用于 Python 的即时编译器（jit），最适用于使用 NumPy 数组和函数以及循环的代码。 使用 Numba 最常见的方法是通过它的装饰器集合，通过这些装饰器来标记函数使用 Numba 编译。 当调用 Numba 修饰函数时，它会“即时”编译为机器代码以供执行，最后使用 LLVM 编译器库生成函数的机器码，每次调用函数时都会使用此编译版本。</p>
-<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><p>在使用numba进行加速时，首先需要在待加速函数前添加<code>@git</code>装饰器，但这并不足够。因为numba中支持的数据类别和运算类型，和numpy不完全一致，具体可参考<a target="_blank" rel="noopener" href="https://numba.pydata.org/numba-doc/0.24.0/reference/numpysupported.html">numba supported types</a>。</p>
-<p>因此，一般情况下需要对原来的函数代码进行修改。涉及的修改情况，比如<code>list</code>类型，比如numpy运算<code>np.zeros()</code>等，需要将这些修改为numba中支持的类型。只有添加了jit编译装饰器，并且将代码完全修改为numba所支持的类型和运算，那么通过numba加速才能实现。</p>
-<p>下面是列的一个numba加速的参考示例，对于数据类型和运算均有进行相应修改匹配，使其符合numba。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> numba<span class="token punctuation">.</span>typed <span class="token keyword">import</span> List
-
-
-<span class="token decorator annotation punctuation">@jit</span><span class="token punctuation">(</span>nopython<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> parallel<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">my_fun</span><span class="token punctuation">(</span>ary_data<span class="token punctuation">,</span> nums <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">,</span> ab_ratio<span class="token operator">=</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    rows <span class="token operator">=</span> ary_data<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-    stmp <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">(</span>rows<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>np<span class="token punctuation">.</span>int64<span class="token punctuation">)</span>
-    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        r_num <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>rows <span class="token operator">*</span> ab_ratio<span class="token punctuation">)</span>
-        ind <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>rows<span class="token punctuation">)</span>
-        index <span class="token operator">=</span> ind<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>r_num<span class="token punctuation">]</span>  
-        val <span class="token operator">=</span> ary_data<span class="token punctuation">[</span>index<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">]</span>               
-        val_mean <span class="token operator">=</span> np<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>val<span class="token punctuation">)</span> 
-        val_std <span class="token operator">=</span> np<span class="token punctuation">.</span>std<span class="token punctuation">(</span>val<span class="token punctuation">)</span>                
-        tt <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>rows<span class="token punctuation">)</span><span class="token punctuation">:</span>
-            rr <span class="token operator">=</span> <span class="token punctuation">(</span>ary_data<span class="token punctuation">[</span>j<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">-</span> val_mean<span class="token punctuation">)</span> <span class="token operator">/</span> val_std
-            tmp <span class="token operator">=</span> np<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>rr<span class="token punctuation">)</span>
-            tt<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>tt<span class="token punctuation">)</span>
-
-
-<span class="token decorator annotation punctuation">@jit</span><span class="token punctuation">(</span>nopython<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> parallel<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">use_fun</span><span class="token punctuation">(</span>data_src<span class="token punctuation">,</span> class_num<span class="token punctuation">,</span> nums <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">,</span> ab_ratio<span class="token operator">=</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    inds_final <span class="token operator">=</span> List<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span> cc <span class="token keyword">in</span> prange<span class="token punctuation">(</span>class_num<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        inds_level <span class="token operator">=</span> np<span class="token punctuation">.</span>where<span class="token punctuation">(</span>data_src<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">==</span>cc<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-        data_level <span class="token operator">=</span> data_src<span class="token punctuation">[</span>inds_level<span class="token punctuation">]</span>
-        selectIdx <span class="token operator">=</span> my_fun<span class="token punctuation">(</span>data_level<span class="token punctuation">,</span> nums<span class="token punctuation">,</span> ab_ratio<span class="token punctuation">)</span>
-
-        resIdx <span class="token operator">=</span> <span class="token punctuation">[</span>inds_level<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token keyword">for</span> v <span class="token keyword">in</span> selectIdx<span class="token punctuation">]</span>
-        inds_final<span class="token punctuation">.</span>append<span class="token punctuation">(</span>resIdx<span class="token punctuation">)</span>
-   
-    <span class="token keyword">return</span> inds_final
-
-df_data_use <span class="token operator">=</span> df<span class="token punctuation">[</span>names<span class="token operator">+</span><span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">.</span>values
-inds_select <span class="token operator">=</span> use_fun<span class="token punctuation">(</span>df_data_use<span class="token punctuation">,</span> labes_nums<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>通过numba加速后，的确是发现它的强大威力。之前40万个样本用两轮的数据处理逻辑，就需要1个小时。借助于numba加速，全部样本执行100轮不到1分钟就可完成。加速效果好比是从小电动直接升级为火箭！</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在python加速方面，主要是三个不同方向：</p>
-<ul>
-<li>python向量化编程：这在前面的文章中已有相关总结<a href="https://ruianlc.github.io/2022/11/02/how-i-improve-pandas-operation-500x-faster/">refer</a></li>
-<li>cython：python调用c&#x2F;c++代码，需要对c&#x2F;c++编程熟悉</li>
-<li>numba：通过jit编译器，将python代码编译为llvm字节码</li>
-</ul>
-<p>一般来说，在python开发特别时科学计算时，向量化编程是必须采用的，既可提高代码执行效率，也使得代码更加简洁；cython应用于某些模块需要用c&#x2F;c++开发实现提速的场景；当涉及numpy数组操作，包含较多的for循环时，一定得考虑用numba加速，在解决特别大的数组上，威力巨大。</p>
-<p>Reference</p>
-<p>[1] <a target="_blank" rel="noopener" href="https://numba.pydata.org/numba-doc/latest/user/5minguide.html/">https://numba.pydata.org/numba-doc/latest/user/5minguide.html\</a><br>[2] <a target="_blank" rel="noopener" href="http://stephanhoyer.com/2015/04/09/numba-vs-cython-how-to-choose/">http://stephanhoyer.com/2015/04/09/numba-vs-cython-how-to-choose/</a></p>
+                <p>好几年前，刚毕业的时候，搭了一个网站，用来记录一些生活感悟以及分享一些有纪念意义的照片。刚开始在上面分享也比较勤快，只是近几年一堆事情，生活上和工作上都有比较大的曲折与变动。后来基本停更，近些日子突然想看看之前的网站，发现也没法登录。好像之前发布在网站上的内容在电脑上有备份。因此想重新将网站恢复起来。下面使用了ChatGPT将这个过程，写了一个简短的小故事，来增加这篇文章的阅读感受-.-</p>
+<hr>
+<p>曾经有一位名叫艾莉丝的年轻女孩，她是个对摄影和旅行充满热情的影迷。每当她有空闲时间，她就会背上相机，踏上她的冒险旅程，记录下每一个美好的瞬间。</p>
+<p>艾莉丝对于自己的摄影作品感到自豪，她把每年的日常生活和旅行中的精彩瞬间都记录在镜头里。她喜欢在一个特殊的在线网站上分享这些照片，这个网站是她精心搭建的，专门用来存档她的影集。对她来说，这个网站不仅仅是照片的展示场所，更像是一个能让她重新回忆起那些美好时光的宝库。</p>
+<p>然而，有一天，这个网站出了一些问题，导致艾莉丝所有珍贵的照片都消失了。她心急如焚，尝试着通过各种方式恢复，但都毫无进展。她的心情跌入了低谷，她感到自己失去了许多珍贵的回忆。</p>
+<p>为了挽救这些消失的回忆，艾莉丝决定从零开始。她投入了大量时间和精力，重新搭建网站，并从她的亲友那里寻找过去的日常照片和旅行照片。在这个过程中，她重新体验了许多曾经的美好时光，也结识了许多志同道合的摄影爱好者，他们纷纷提供了珍贵的照片，帮助她重建这个网站。</p>
+<p>最终，艾莉丝成功地将网站重新搭建起来，不仅恢复了所有失去的照片，而且还让网站变得更加丰富多彩。这次经历让她更加珍惜每一张照片背后的故事，也让她明白到摄影不仅仅是记录时光，更是捕捉幸福和回忆的珍贵方式。她的影集网站成为了一个独特而动人的故事集，吸引了许多年轻女孩子加入并分享她们的故事，让这个网站成为一个充满温暖和启发的社区。</p>
+<p>这是我恢复后的旧影集网站：<a target="_blank" rel="noopener" href="https://ruialcn.github.io/">点我</a></p>
 
                 
             </div>
@@ -388,7 +348,7 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://ruianlc.github.io/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/">https://ruianlc.github.io/2022/11/12/use-numba-to-accelate-numpy-operation-by-more-than-thousands-times-faster/</a>
+                    <a href="https://ruianlc.github.io/2023/12/16/recall-my-older-albums/">https://ruianlc.github.io/2023/12/16/recall-my-older-albums/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -426,12 +386,16 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/numpy/">
-                                    <span class="chip bg-color">numpy</span>
+                                <a href="/tags/%E5%B9%B4%E4%BB%A3%E8%AE%B0/">
+                                    <span class="chip bg-color">年代记</span>
                                 </a>
                             
-                                <a href="/tags/numba/">
-                                    <span class="chip bg-color">numba</span>
+                                <a href="/tags/life/">
+                                    <span class="chip bg-color">life</span>
+                                </a>
+                            
+                                <a href="/tags/photo/">
+                                    <span class="chip bg-color">photo</span>
                                 </a>
                             
                         </div>
@@ -510,17 +474,18 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/11/17/non-normal-distribution-and-non-parameter-models/">
+                <a href="/2023/12/16/recall-my-older-albums/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="机器学习中如何应对非正态分布数据的建模">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="找回我的旧影集">
                         
-                        <span class="card-title">机器学习中如何应对非正态分布数据的建模</span>
+                        <span class="card-title">找回我的旧影集</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -530,9 +495,67 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-17
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-12-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%94%9F%E6%B4%BB/" class="post-category">
+                                    生活
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B4%E4%BB%A3%E8%AE%B0/">
+                        <span class="chip bg-color">年代记</span>
+                    </a>
+                    
+                    <a href="/tags/life/">
+                        <span class="chip bg-color">life</span>
+                    </a>
+                    
+                    <a href="/tags/photo/">
+                        <span class="chip bg-color">photo</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/12/03/accelarate-your-sklearn-with-sklearn-intel-extension/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="使用scikit-learn-intel-extension加速你的scikit-learn开发应用">
+                        
+                        <span class="card-title">使用scikit-learn-intel-extension加速你的scikit-learn开发应用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-03
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -548,65 +571,12 @@ inds_select <span class="token operator">=</span> use_fun<span class="token punc
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/">
-                        <span class="chip bg-color">算法理论</span>
+                    <a href="/tags/sklearn/">
+                        <span class="chip bg-color">sklearn</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83/">
-                        <span class="chip bg-color">数据分布</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/11/02/how-i-improve-pandas-operation-500x-faster/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="如何使用pandas实现对40万样本集的快速运算">
-                        
-                        <span class="card-title">如何使用pandas实现对40万样本集的快速运算</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-02
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/python/" class="post-category">
-                                    python
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/pandas/">
-                        <span class="chip bg-color">pandas</span>
-                    </a>
-                    
-                    <a href="/tags/bigdata/">
-                        <span class="chip bg-color">bigdata</span>
+                    <a href="/tags/accelaration/">
+                        <span class="chip bg-color">accelaration</span>
                     </a>
                     
                 </div>

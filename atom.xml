@@ -6,7 +6,7 @@
   <link href="https://ruianlc.github.io/atom.xml" rel="self"/>
   
   <link href="https://ruianlc.github.io/"/>
-  <updated>2022-12-03T04:11:18.202Z</updated>
+  <updated>2023-12-16T12:58:23.621Z</updated>
   <id>https://ruianlc.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>找回我的旧影集</title>
+    <link href="https://ruianlc.github.io/2023/12/16/recall-my-older-albums/"/>
+    <id>https://ruianlc.github.io/2023/12/16/recall-my-older-albums/</id>
+    <published>2023-12-16T11:56:33.000Z</published>
+    <updated>2023-12-16T12:58:23.621Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;好几年前，刚毕业的时候，搭了一个网站，用来记录一些生活感悟以及分享一些有纪念意义的照片。刚开始在上面分享也比较勤快，只是近几年一堆事情，生活上和工作上都有比较大的曲折与变动。后来基本停更，近些日子突然想看看之前的网站，发现也没法登录。好像之前发布在网站上的内容在电脑上有备份</summary>
+        
+      
+    
+    
+    
+    <category term="生活" scheme="https://ruianlc.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+    <category term="年代记" scheme="https://ruianlc.github.io/tags/%E5%B9%B4%E4%BB%A3%E8%AE%B0/"/>
+    
+    <category term="life" scheme="https://ruianlc.github.io/tags/life/"/>
+    
+    <category term="photo" scheme="https://ruianlc.github.io/tags/photo/"/>
+    
+  </entry>
   
   <entry>
     <title>使用scikit-learn-intel-extension加速你的scikit-learn开发应用</title>
